@@ -4,6 +4,7 @@ use std::sync::Mutex;
 #[allow(dead_code)]
 #[derive(Clone, Debug)]
 pub struct Estimation {
+    pub revealed: bool,
     pub question: String,
     pub answers: HashMap<String, String>, // answer: username
 }
@@ -72,8 +73,42 @@ impl AppState {
                 .or_insert(Estimation {
                     question: question.clone(),
                     answers: HashMap::new(),
+                    revealed: false,
                 });
             estimation.answers.insert(answer, username);
+        }
+    }
+
+    pub fn reveal_estimation(&self, room_id: &str, question: &str) {
+        let mut rooms = self.rooms.lock().unwrap();
+        if let Some(room) = rooms.get_mut(room_id) {
+            if let Some(estimation) = room.estimations.get_mut(question) {
+                estimation.revealed = true;
+            }
+        }
+    }
+
+    pub fn clear_estimations(&self, room_id: &str) {
+        let mut rooms = self.rooms.lock().unwrap();
+        if let Some(room) = rooms.get_mut(room_id) {
+            room.estimations.clear();
+        }
+    }
+
+    pub fn add_estimation_answer(
+        &self,
+        room_id: &str,
+        question: &str,
+        answer: &str,
+        username: &str,
+    ) {
+        let mut rooms = self.rooms.lock().unwrap();
+        if let Some(room) = rooms.get_mut(room_id) {
+            if let Some(estimation) = room.estimations.get_mut(question) {
+                estimation
+                    .answers
+                    .insert(answer.to_string(), username.to_string());
+            }
         }
     }
 }

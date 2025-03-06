@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro'
+import RoomRouter from '../components/room/roomRouter/roomRouter'
 ---
 
 <Layout title='Welcome to AstroX.'>
-  <h1>404 !!!</h1>
+  <RoomRouter client:only='react' />
 </Layout>

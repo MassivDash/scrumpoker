@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { axiosBackendInstance } from '../../axiosInstance/axiosBackendInstance'
+import { axiosBackendInstance } from '../../../axiosInstance/axiosBackendInstance'
+import { useNavigate } from 'react-router-dom'
 
 const CreateRoomForm: React.FC = () => {
   const [username, setUsername] = useState('')
   const [roomname, setRoomname] = useState('')
+
+  const navigate = useNavigate()
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -17,6 +20,7 @@ const CreateRoomForm: React.FC = () => {
       if (response.status === 200) {
         alert('Room created successfully!')
         // Redirect to the room page or handle success
+        navigate(`/room/${response.data.room_id}`)
       } else {
         alert('Failed to create room.')
         // Handle error

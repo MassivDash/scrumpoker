@@ -1,6 +1,6 @@
 use actix_session::Session;
 use actix_web::{web, HttpResponse, Responder};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use crate::room::room_manager::AppState;
@@ -9,6 +9,12 @@ use crate::room::room_manager::AppState;
 pub struct CreateRoomRequest {
     pub room_name: String,
     pub user_name: String,
+}
+
+#[derive(Serialize)]
+pub struct CreateRoomResponse {
+    pub room_name: String,
+    pub room_id: String,
 }
 
 pub async fn create_room(
@@ -28,8 +34,7 @@ pub async fn create_room(
     // Add room
     data.add_room(room_id.clone(), room_name.clone(), user_name.clone());
 
-    HttpResponse::Ok().body(format!(
-        "Room '{}' created and user '{}' added.",
-        room_name, user_name
-    ))
+    let response = CreateRoomResponse { room_name, room_id };
+
+    HttpResponse::Ok().json(response)
 }
