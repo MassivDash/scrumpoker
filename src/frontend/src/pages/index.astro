@@ -1,7 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro'
+import CreateRoomForm from '../components/createRoomForm/createRoomForm'
+import ListRooms from '../components/listRooms/listRooms'
 ---
 
 <Layout title='Welcome to Astro X'>
-  <div transition:animate='fade'></div>
+  <div transition:animate='fade'>
+    <h1>Welcome to spaceout scrum poker</h1>
+    <CreateRoomForm client:load />
+    <ListRooms client:load />
+  </div>
 </Layout>

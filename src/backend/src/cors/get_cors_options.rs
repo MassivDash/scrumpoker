@@ -32,6 +32,7 @@ pub fn get_cors_options(env: String, allowed_origin: String) -> Cors {
             .allow_any_origin()
             .allow_any_method()
             .allow_any_header()
+            .supports_credentials()
             .max_age(3600)
     }
 }

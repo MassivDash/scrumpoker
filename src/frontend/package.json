@@ -17,10 +17,15 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/svelte": "^7.0.1",
+    "@astrojs/react": "^4.2.1",
+    "@astrojs/svelte": "^7.0.5",
     "@fontsource/pacifico": "^5.0.8",
-    "astro": "^5.0.5",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "astro": "^5.4.2",
     "axios": "^1.7.9",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "svelte": "^5.14.0",
     "typescript": "^5.7.2"
   },

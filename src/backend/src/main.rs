@@ -1,23 +1,22 @@
-use std::env;
-
 use actix_files::{Files, NamedFile};
 use actix_rt::System;
 use actix_web::dev::{fn_service, ServiceRequest, ServiceResponse};
 use actix_web::middleware::{NormalizePath, TrailingSlash};
 use actix_web::{middleware, web, App, HttpServer};
+use api::room::create_room::create_room;
+use api::room::list_rooms::list_rooms;
+use std::env;
 
+mod api;
 mod args;
-mod auth;
 mod cors;
+mod room;
 mod session;
-mod ssr_routes;
 
 use crate::args::collect_args::collect_args;
-use crate::auth::auth_middleware::Authentication;
 use crate::cors::get_cors_options::get_cors_options;
+use crate::room::room_manager::AppState;
 use crate::session::flash_messages::set_up_flash_messages;
-use crate::ssr_routes::login::login_form;
-use crate::ssr_routes::post_login::post_login;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -30,18 +29,20 @@ async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
 
+    let app_state = web::Data::new(AppState::new());
+
     // Set up the actix server
     let server = HttpServer::new(move || {
         let env = args.env.to_string();
         let cors = get_cors_options(env, cors_url.clone()); //Prod CORS URL address, for dev run the cors is set to *
-        let auth_routes: Vec<String> = vec!["/auth/*".to_string()]; // Routes that require authentication
 
         // The services and wrappers are loaded from the last to first
         // Ensure all the wrappers are after routes and handlers
         App::new()
+            .app_data(app_state.clone())
             .wrap(cors)
-            .route("/login", web::get().to(login_form))
-            .route("/login", web::post().to(post_login))
+            .route("/api/create_room", web::post().to(create_room))
+            .route("/api/list_rooms", web::get().to(list_rooms))
             .service(
                 Files::new("/", "../frontend/dist/")
                     .prefer_utf8(true)
@@ -53,9 +54,6 @@ async fn main() -> std::io::Result<()> {
                         Ok(ServiceResponse::new(req, res))
                     })),
             )
-            .wrap(Authentication {
-                routes: auth_routes,
-            })
             .wrap(session::session_middleware::session_middleware())
             .wrap(set_up_flash_messages())
             .wrap(middleware::Compress::default())
