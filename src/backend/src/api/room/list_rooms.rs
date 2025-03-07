@@ -1,6 +1,7 @@
 use actix_session::Session;
 use actix_web::{web, HttpResponse, Responder};
 use serde::Serialize;
+use std::sync::Arc;
 
 use crate::room::room_manager::AppState;
 
@@ -10,7 +11,7 @@ struct RoomInfo {
     name: String,
 }
 
-pub async fn list_rooms(data: web::Data<AppState>, session: Session) -> impl Responder {
+pub async fn list_rooms(data: web::Data<Arc<AppState>>, session: Session) -> impl Responder {
     if let Some(user_name) = session.get::<String>("user_name").unwrap_or(None) {
         let rooms = data.rooms.lock().unwrap();
         let room_list: Vec<RoomInfo> = rooms

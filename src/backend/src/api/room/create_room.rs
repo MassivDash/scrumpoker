@@ -1,6 +1,7 @@
 use actix_session::Session;
 use actix_web::{web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
+use std::sync::Arc;
 use uuid::Uuid;
 
 use crate::room::room_manager::AppState;
@@ -18,7 +19,7 @@ pub struct CreateRoomResponse {
 }
 
 pub async fn create_room(
-    data: web::Data<AppState>,
+    data: web::Data<Arc<AppState>>,
     session: Session,
     req: web::Json<CreateRoomRequest>,
 ) -> impl Responder {

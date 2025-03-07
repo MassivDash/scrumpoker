@@ -1,11 +1,18 @@
+use std::env;
+
 use actix_files::{Files, NamedFile};
-use actix_rt::System;
+use actix_rt::{spawn, System};
+
 use actix_web::dev::{fn_service, ServiceRequest, ServiceResponse};
 use actix_web::middleware::{NormalizePath, TrailingSlash};
-use actix_web::{middleware, web, App, HttpServer};
+use actix_web::web::Payload;
+use actix_web::Error;
+use actix_web::{middleware, web, App, HttpRequest, HttpResponse, HttpServer};
 use api::room::create_room::create_room;
+use api::room::get_room::get_room;
 use api::room::list_rooms::list_rooms;
-use std::env;
+use api::room::ws_handler::room_ws;
+use std::sync::Arc;
 
 mod api;
 mod args;
@@ -17,6 +24,26 @@ use crate::args::collect_args::collect_args;
 use crate::cors::get_cors_options::get_cors_options;
 use crate::room::room_manager::AppState;
 use crate::session::flash_messages::set_up_flash_messages;
+
+async fn ws_handler(
+    req: HttpRequest,
+    stream: Payload,
+    app_state: web::Data<Arc<AppState>>,
+) -> Result<HttpResponse, Error> {
+    let room_id = req.match_info().get("room_id").unwrap().to_string();
+    let (res, session, msg_stream) = actix_ws::handle(&req, stream)?;
+
+    // spawn websocket handler (and don't await it) so that the response is returned immediately
+    let app_state_clone = app_state.clone();
+    spawn(room_ws(
+        app_state_clone.get_ref().clone(),
+        session,
+        msg_stream,
+        room_id,
+    ));
+
+    Ok(res)
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -43,6 +70,8 @@ async fn main() -> std::io::Result<()> {
             .wrap(cors)
             .route("/api/create_room", web::post().to(create_room))
             .route("/api/list_rooms", web::get().to(list_rooms))
+            .route("/api/get_room/{room_id}", web::get().to(get_room))
+            .route("/ws/{room_id}", web::get().to(ws_handler))
             .service(
                 Files::new("/", "../frontend/dist/")
                     .prefer_utf8(true)

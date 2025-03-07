@@ -3,8 +3,8 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
-  useNavigate
+  useNavigate,
+  useLocation
 } from 'react-router-dom'
 import { axiosBackendInstance } from '../../../axiosInstance/axiosBackendInstance'
 import CreateRoomForm from '../createRoomForm/createRoomForm'
@@ -16,14 +16,22 @@ const RoomRouter: React.FC = () => {
   const [rooms, setRooms] = useState<R[]>([])
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     const fetchRooms = async () => {
       try {
         const response = await axiosBackendInstance.get('/list_rooms')
         if (response.status === 200 && response.data.length > 0) {
-          console.log(response)
           setRooms(response.data)
+
+          //if location is /room/:id, redirect to room/:id
+          if (location.pathname.includes('/room/')) {
+            const roomId = location.pathname.split('/').pop()
+            navigate(`/room/${roomId}`)
+            return
+          }
+
           navigate('/rooms')
         } else {
           navigate('/create-room')
