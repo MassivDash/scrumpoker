@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { axiosBackendInstance } from '../../../axiosInstance/axiosBackendInstance'
 import { useNavigate } from 'react-router-dom'
-
+import Hero from '../../hero/hero'
 const CreateRoomForm: React.FC = () => {
   const [username, setUsername] = useState('')
   const [roomname, setRoomname] = useState('')
@@ -33,29 +33,32 @@ const CreateRoomForm: React.FC = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor='username'>Username:</label>
-      <input
-        type='text'
-        id='username'
-        name='username'
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
-      <br />
-      <label htmlFor='roomname'>Room Name:</label>
-      <input
-        type='text'
-        id='roomname'
-        name='roomname'
-        value={roomname}
-        onChange={(e) => setRoomname(e.target.value)}
-        required
-      />
-      <br />
-      <button type='submit'>Create Room</button>
-    </form>
+    <>
+      <Hero />
+      <form onSubmit={handleSubmit}>
+        <label htmlFor='username'>Username:</label>
+        <input
+          type='text'
+          id='username'
+          name='username'
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <br />
+        <label htmlFor='roomname'>Room Name:</label>
+        <input
+          type='text'
+          id='roomname'
+          name='roomname'
+          value={roomname}
+          onChange={(e) => setRoomname(e.target.value)}
+          required
+        />
+        <br />
+        <button type='submit'>Create Room</button>
+      </form>
+    </>
   )
 }
 

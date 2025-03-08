@@ -1,0 +1,109 @@
+.deck {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 300px;
+  flex-wrap: nowrap;
+  flex-basis: 100%;
+  margin: 0 auto;
+  transform: translateX(350px);
+}
+
+.deck_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex-wrap: nowrap;
+  flex-basis: 100%;
+  margin: 0 auto;
+}
+
+.deck .card {
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+}
+
+.deck .card:hover {
+  transform: translateY(
+      calc(var(--current-translate-y, 0px) - var(--card-height) / 4)
+    )
+    translateX(var(--current-translate-x, 0px))
+    rotate(var(--current-rotate, 0deg)) !important;
+}
+
+.deck .card:nth-child(1) {
+  --current-translate-y: 50px;
+  --current-translate-x: 0px;
+  --current-rotate: -15deg;
+  transform: translateY(var(--current-translate-y))
+    rotate(var(--current-rotate));
+}
+
+.deck .card:nth-child(2) {
+  --current-translate-y: 40px;
+  --current-translate-x: -100px;
+  --current-rotate: -10deg;
+  transform: translateY(var(--current-translate-y))
+    translateX(var(--current-translate-x)) rotate(var(--current-rotate));
+}
+
+.deck .card:nth-child(3) {
+  --current-translate-y: 30px;
+  --current-translate-x: -200px;
+  --current-rotate: -5deg;
+  transform: translateY(var(--current-translate-y))
+    translateX(var(--current-translate-x)) rotate(var(--current-rotate));
+}
+
+.deck .card:nth-child(4) {
+  --current-translate-y: 20px;
+  --current-translate-x: -300px;
+  --current-rotate: 0deg;
+  transform: translateY(var(--current-translate-y))
+    translateX(var(--current-translate-x)) rotate(var(--current-rotate));
+}
+
+.deck .card:nth-child(5) {
+  --current-translate-y: 10px;
+  --current-translate-x: -400px;
+  --current-rotate: 5deg;
+  transform: translateY(var(--current-translate-y))
+    translateX(var(--current-translate-x)) rotate(var(--current-rotate));
+}
+
+.deck .card:nth-child(6) {
+  --current-translate-y: 0px;
+  --current-translate-x: -500px;
+  --current-rotate: 10deg;
+  transform: translateY(var(--current-translate-y))
+    translateX(var(--current-translate-x)) rotate(var(--current-rotate));
+}
+
+.deck .card:nth-child(7) {
+  --current-translate-y: 10px;
+  --current-translate-x: -600px;
+  --current-rotate: 15deg;
+  transform: translateY(var(--current-translate-y))
+    translateX(var(--current-translate-x)) rotate(var(--current-rotate));
+}
+
+.deck .card:nth-child(8) {
+  --current-translate-y: 20px;
+  --current-translate-x: -700px;
+  --current-rotate: 20deg;
+  transform: translateY(var(--current-translate-y))
+    translateX(var(--current-translate-x)) rotate(var(--current-rotate));
+}
+
+.deck .card:nth-child(9) {
+  --current-translate-y: 30px;
+  --current-translate-x: -800px;
+  --current-rotate: 25deg;
+  transform: translateY(var(--current-translate-y))
+    translateX(var(--current-translate-x)) rotate(var(--current-rotate));
+}

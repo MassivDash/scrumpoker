@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { axiosBackendInstance } from '../../../axiosInstance/axiosBackendInstance'
 import { useLocation } from 'react-router-dom'
-
+import Deck from '../../deck/deck'
+import ScrumPokerTable from '../table/table'
+import './room.css'
 const Room = () => {
   const [room, setRoom] = useState(null)
   const [ws, setWs] = useState(null)
@@ -49,25 +51,11 @@ const Room = () => {
       case 'AddQuestion':
         setRoom(() => message.data)
         break
+      case 'UserJoined':
+        setRoom(() => message.data)
+        break
       case 'AddAnswer':
-        setRoom((prevRoom) => {
-          const updatedEstimations = prevRoom.estimations.map((estimation) => {
-            if (estimation[message.question]) {
-              return {
-                ...estimation,
-                [message.question]: {
-                  ...estimation[message.question],
-                  answers: [
-                    ...estimation[message.question].answers,
-                    { answer: message.answer, username: message.username }
-                  ]
-                }
-              }
-            }
-            return estimation
-          })
-          return { ...prevRoom, estimations: updatedEstimations }
-        })
+        setRoom(() => message.data)
         break
       default:
         console.error('Unknown message type:', message.type)
@@ -87,7 +75,7 @@ const Room = () => {
   }
 
   return (
-    <div>
+    <div className='room_wrapper'>
       <h1>Room: {room ? room.name : 'Loading...'}</h1>
       {room && (
         <div>
@@ -121,6 +109,8 @@ const Room = () => {
           <button type='submit'>Send</button>
         </form>
       </div>
+      <ScrumPokerTable users={room ? room.users : []} user='user' />
+      <Deck onCardClick={(sth) => console.log(sth)} />
     </div>
   )
 }

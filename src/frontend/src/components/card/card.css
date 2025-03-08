@@ -1,0 +1,132 @@
+:root {
+  --color: #c0c0c0;
+  --background: #f0f0f0;
+  --gutter: 10px;
+  --font-size: 16px;
+  --card-background: #fff;
+  --card-padding: 4px;
+  --card-width: 172px;
+  --card-height: 240px;
+  --card-color-red: #e44145;
+  --card-color-black: #252525;
+  --card-symbol-size: 40px;
+}
+
+.card {
+  position: relative;
+  display: inline-block;
+  width: var(--card-width);
+  min-width: var(--card-width);
+  height: var(--card-height);
+  font: var(--font-size) 'Trebuchet MS';
+  margin: var(--gutter);
+  border-radius: var(--card-padding);
+  background: var(--card-background);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:before,
+.card:after {
+  content: attr(value);
+  position: absolute;
+  width: 12px;
+  text-align: center;
+  letter-spacing: -2px;
+}
+
+.card:before {
+  top: var(--card-padding);
+  left: var(--card-padding);
+}
+
+.card:after {
+  bottom: var(--card-padding);
+  right: var(--card-padding);
+  transform: rotate(180deg);
+}
+
+.card--heart {
+  color: var(--card-color-red);
+}
+
+.card--heart:before,
+.card--heart:after {
+  content: attr(value) ' ♥';
+}
+
+.card--spade {
+  color: var(--card-color-black);
+}
+
+.card--spade:before,
+.card--spade:after {
+  content: attr(value) ' ♠';
+}
+
+.card__inner {
+  box-sizing: border-box;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  top: calc(6 * var(--card-padding));
+  left: calc(6 * var(--card-padding));
+  right: calc(6 * var(--card-padding));
+  bottom: calc(6 * var(--card-padding));
+}
+
+.card__inner--centered {
+  justify-content: center;
+}
+
+.card__column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card__column--centered {
+  justify-content: center;
+}
+
+.card__symbol {
+  display: inline-block;
+  height: var(--card-symbol-size);
+  text-align: center;
+}
+
+.card__symbol:before {
+  font-size: var(--card-symbol-size);
+  line-height: var(--card-symbol-size);
+}
+
+.card--heart .card__symbol:before {
+  content: '♥';
+}
+
+.card--spade .card__symbol:before {
+  content: '♠';
+}
+
+.card__symbol--rotated,
+.card__symbol:last-of-type {
+  transform: rotate(180deg);
+}
+
+.card__symbol:first-of-type {
+  transform: rotate(0);
+}
+
+.card__symbol--big {
+  flex-basis: calc(0.25 * var(--card-height));
+}
+
+.card__symbol--huge {
+  flex-basis: calc(0.45 * var(--card-height));
+}
+
+.title {
+  font: 18px 'Trebuchet MS';
+  color: #444;
+  text-align: center;
+}

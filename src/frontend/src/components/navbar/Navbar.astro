@@ -1,10 +1,5 @@
 ---
-import GithubIcon from '../../svgs/Github.astro'
 import SpaceoutIcon from '../../svgs/Spaceout.astro'
-import AstroIcon from '../../svgs/AstroIcon.astro'
-import RustIcon from '../../svgs/RustIcon.astro'
-import ActixIcon from '../../svgs/Actix.astro'
-import NavbarItem from './NavbarItem.astro'
 ---
 
 <script>
@@ -17,41 +12,9 @@ import NavbarItem from './NavbarItem.astro'
 
 <nav>
   <div class='nav'>
-    <ul>
-      <li>
-        <a id='home-link' href='/'>
-          <div class='logo'>
-            <p>astro <span id='homeIcon' class='navi-link'>X</span></p>
-          </div></a
-        >
-      </li>
-      <NavbarItem id='cli-link' href='/cli'>
-        <RustIcon height={30} width={30} />
-        <p>cli</p>
-      </NavbarItem>
-      <NavbarItem id='actix-link' href='/actix'>
-        <ActixIcon height={30} width={30} />
-        <p>actiX</p>
-      </NavbarItem>
-      <NavbarItem id='astro-link' href='/astro'>
-        <AstroIcon height={30} width={30} />
-        <p>astro</p>
-      </NavbarItem>
-    </ul>
-    <ul class='social-links'>
-      <NavbarItem
-        external
-        id='github-link'
-        href='https://github.com/MassivDash/AstroX'
-      >
-        <GithubIcon height={28} width={28} />
-        <p>Repository</p>
-      </NavbarItem>
-      <NavbarItem external id='spaceout-link' href='https://spaceout.pl'>
-        <SpaceoutIcon height={35} width={35} />
-        <p>Spaceout</p>
-      </NavbarItem>
-    </ul>
+    <a id='spaceout-link' href='https://spaceout.pl'>
+      <SpaceoutIcon height={35} width={35} />
+    </a>
   </div>
 </nav>
 
@@ -67,64 +30,19 @@ import NavbarItem from './NavbarItem.astro'
 
   .nav {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
-  }
-
-  .logo {
-    padding-left: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  p {
-    font-weight: 700;
-    font-size: 2rem;
-    color: #333;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  ul {
-    display: flex;
-    list-style: none;
-    padding: 0 1rem;
-    align-items: center;
-    width: 100%;
-  }
-
-  .social-links {
-    justify-content: flex-end;
-  }
-
-  span {
-    font-weight: 700;
-    font-size: 2.5rem;
-    color: #8b8b8b;
-    line-height: 1.5;
-    padding-bottom: 5px;
-  }
-
-  li {
-    margin: 0 1rem;
-
-    &:first-child {
-      margin-right: 30px;
-    }
+    padding-left: 1em;
   }
 
   a {
     text-decoration: none;
-    color: #8b8b8b;
     text-transform: lowercase;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
     font-size: smaller;
-    transition: all 0.7s ease-in-out;
     &:hover {
       color: #0a0909;
     }
