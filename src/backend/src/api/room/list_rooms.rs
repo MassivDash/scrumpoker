@@ -6,7 +6,13 @@ use std::sync::Arc;
 use crate::room::room_manager::AppState;
 
 #[derive(Serialize)]
-struct RoomInfo {
+pub struct ListResponse {
+    pub username: String,
+    pub rooms: Vec<RoomInfo>,
+}
+
+#[derive(Serialize)]
+pub struct RoomInfo {
     id: String,
     name: String,
 }
@@ -23,7 +29,12 @@ pub async fn list_rooms(data: web::Data<Arc<AppState>>, session: Session) -> imp
             })
             .collect();
 
-        HttpResponse::Ok().json(room_list)
+        let room_list_response = ListResponse {
+            username: user_name,
+            rooms: room_list,
+        };
+
+        HttpResponse::Ok().json(room_list_response)
     } else {
         HttpResponse::Unauthorized().body("User not logged in")
     }

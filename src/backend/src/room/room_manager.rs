@@ -27,7 +27,7 @@ pub struct Room {
     pub owner: String,
     pub users: Vec<String>,
     pub current_estimation: u8,
-    pub estimations: Vec<HashMap<String, Estimation>>, // question: Estimation
+    pub estimations: Vec<Estimation>, // question: Estimation
 }
 
 pub struct AppState {
@@ -89,30 +89,23 @@ impl AppState {
             let estimation_map = room
                 .estimations
                 .iter_mut()
-                .find(|map| map.contains_key(&question));
+                .find(|estimation| estimation.question == question);
             if estimation_map.is_none() {
-                let mut new_estimation = HashMap::new();
-                new_estimation.insert(
-                    question.clone(),
-                    Estimation {
-                        revealed: false,
-                        question: question.clone(),
-                        answers: vec![],
-                    },
-                );
+                let new_estimation = Estimation {
+                    revealed: false,
+                    question: question.clone(),
+                    answers: Vec::new(),
+                };
                 room.estimations.push(new_estimation);
             }
         }
     }
 
-    pub fn reveal_estimation(&self, room_id: &str, question: &str) {
+    pub fn reveal_estimation(&self, room_id: &str, estimation_index: u8) {
         let mut rooms = self.rooms.lock().unwrap();
         if let Some(room) = rooms.get_mut(room_id) {
-            for estimation_map in &mut room.estimations {
-                if let Some(estimation) = estimation_map.get_mut(question) {
-                    estimation.revealed = true;
-                    break;
-                }
+            if let Some(estimation) = room.estimations.get_mut(estimation_index as usize) {
+                estimation.revealed = true;
             }
         }
     }
@@ -120,19 +113,24 @@ impl AppState {
     pub fn add_estimation_answer(
         &self,
         room_id: &str,
-        question: &str,
+        estimation_index: u8,
         answer: &str,
         username: &str,
     ) {
         let mut rooms = self.rooms.lock().unwrap();
         if let Some(room) = rooms.get_mut(room_id) {
-            for estimation_map in &mut room.estimations {
-                if let Some(estimation) = estimation_map.get_mut(question) {
+            if let Some(estimation) = room.estimations.get_mut(estimation_index as usize) {
+                if let Some(existing_answer) = estimation
+                    .answers
+                    .iter_mut()
+                    .find(|a| a.username == username)
+                {
+                    existing_answer.answer = answer.to_string();
+                } else {
                     estimation.answers.push(Answers {
                         answer: answer.to_string(),
                         username: username.to_string(),
                     });
-                    break;
                 }
             }
         }

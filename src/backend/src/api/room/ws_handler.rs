@@ -18,8 +18,20 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(tag = "type")]
 enum WsMessage {
-    AddQuestion { question: String },
-    AddAnswer { question: String, answer: String },
+    AddQuestion {
+        question: String,
+    },
+    AddAnswer {
+        estimation: u8,
+        answer: String,
+        username: String,
+    },
+    SetCurrentEstimation {
+        estimation: u8,
+    },
+    RevealEstimations {
+        estimation: u8,
+    },
 }
 /// How often heartbeat pings are sent
 const HEARTBEAT_INTERVAL: Duration = Duration::from_secs(5);
@@ -129,7 +141,7 @@ async fn process_text_msg(
     app_state: &AppState,
     session: &mut actix_ws::Session,
     text: &str,
-    conn_id: &str,
+    _conn_id: &str,
     room_id: &str,
 ) {
     let msg = text.trim();
@@ -148,12 +160,46 @@ async fn process_text_msg(
                 app_state.broadcast(room_id, &serde_msg);
             }
         }
-        Ok(WsMessage::AddAnswer { question, answer }) => {
-            app_state.add_estimation_answer(room_id, &question, &answer, conn_id);
+        Ok(WsMessage::AddAnswer {
+            estimation,
+            answer,
+            username,
+        }) => {
+            app_state.add_estimation_answer(room_id, estimation, &answer, &username);
             // Get the current room object from the app state and broadcast the new answer
             if let Some(room) = app_state.get_room(room_id) {
-                let room_json = serde_json::to_string(&room).unwrap();
-                app_state.broadcast(room_id, &room_json);
+                let message = ResponseMessageWS {
+                    type_: "AddAnswer".to_string(),
+                    data: room,
+                };
+
+                let serde_msg = serde_json::to_string(&message).unwrap();
+                app_state.broadcast(room_id, &serde_msg);
+            }
+        }
+        Ok(WsMessage::SetCurrentEstimation { estimation }) => {
+            app_state.change_current_estimation(room_id, estimation);
+            // Get the current room object from the app state and broadcast the new estimation
+            if let Some(room) = app_state.get_room(room_id) {
+                let message = ResponseMessageWS {
+                    type_: "SetCurrentEstimation".to_string(),
+                    data: room,
+                };
+
+                let serde_msg = serde_json::to_string(&message).unwrap();
+                app_state.broadcast(room_id, &serde_msg);
+            }
+        }
+        Ok(WsMessage::RevealEstimations { estimation }) => {
+            app_state.reveal_estimation(room_id, estimation);
+            if let Some(room) = app_state.get_room(room_id) {
+                let message = ResponseMessageWS {
+                    type_: "RevealEstimation".to_string(),
+                    data: room,
+                };
+
+                let serde_msg = serde_json::to_string(&message).unwrap();
+                app_state.broadcast(room_id, &serde_msg);
             }
         }
         Err(_) => {

@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use actix_session::Session;
 use actix_web::{web, HttpResponse, Responder};
 use serde::Serialize;
@@ -11,9 +9,10 @@ use crate::room::room_manager::{AppState, Estimation};
 pub struct RoomResponse<'a> {
     pub id: &'a String,
     pub name: &'a String,
-    pub user_is_owner: bool,
-    pub estimations: &'a Vec<HashMap<String, Estimation>>,
-    users: &'a Vec<String>,
+    pub owner: &'a String,
+    pub estimations: &'a Vec<Estimation>,
+    pub users: &'a Vec<String>,
+    pub current_estimation: u8,
 }
 
 pub async fn get_room(
@@ -45,7 +44,8 @@ pub async fn get_room(
         let response = RoomResponse {
             id: &room.id,
             name: &room.name,
-            user_is_owner,
+            owner: &room.owner,
+            current_estimation: room.current_estimation,
             estimations: &room.estimations,
             users: &room.users,
         };

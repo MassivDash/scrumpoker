@@ -3,13 +3,30 @@ import { axiosBackendInstance } from '../../../axiosInstance/axiosBackendInstanc
 import { useLocation } from 'react-router-dom'
 import Deck from '../../deck/deck'
 import ScrumPokerTable from '../table/table'
+import Userbar from './userbar/userbar'
 import './room.css'
+import { useUsername } from '../../usernameContext/usernameContext'
+import Estimations from './estimations/estimations'
+
+export interface Estimation {
+  question: string
+  revealed: boolean
+  answers: Array<string>
+}
+export interface Room {
+  id: string
+  name: string
+  owner: string
+  estimations: Array<Estimation>
+  current_estimation: number
+  users: string[]
+}
+
 const Room = () => {
-  const [room, setRoom] = useState(null)
+  const [room, setRoom] = useState<Room | null>(null)
   const [ws, setWs] = useState(null)
-  const [messages, setMessages] = useState([])
-  const [input, setInput] = useState('')
   const location = useLocation()
+  const { username } = useUsername()
 
   const roomId = location.pathname.split('/').pop()
 
@@ -47,70 +64,79 @@ const Room = () => {
   }, [roomId])
 
   const handleWsMessage = (message) => {
-    switch (message.type_) {
-      case 'AddQuestion':
-        setRoom(() => message.data)
-        break
-      case 'UserJoined':
-        setRoom(() => message.data)
-        break
-      case 'AddAnswer':
-        setRoom(() => message.data)
-        break
-      default:
-        console.error('Unknown message type:', message.type)
+    try {
+      setRoom(() => message.data)
+    } catch (error) {
+      console.error('Error handling websocket message:', error)
     }
   }
 
-  const sendMessage = (event) => {
-    event.preventDefault()
-    if (ws && input.trim()) {
+  const handleAddQuestion = (input) => {
+    const message = JSON.stringify({
+      type: 'AddQuestion',
+      question: input
+    })
+    ws.send(message)
+  }
+
+  const handleAddAnswer = (answer: string) => {
+    if (ws) {
       const message = JSON.stringify({
-        type: 'AddQuestion',
-        question: input
+        type: 'AddAnswer',
+        answer: answer,
+        estimation: room.current_estimation,
+        username: username
       })
       ws.send(message)
-      setInput('')
     }
   }
+
+  const onSetCurrentEstimation = (index: number) => {
+    if (ws) {
+      const message = JSON.stringify({
+        type: 'SetCurrentEstimation',
+        estimation: index
+      })
+      ws.send(message)
+    }
+  }
+
+  const onRevealEstimations = (index: number) => {
+    if (ws) {
+      const message = JSON.stringify({
+        type: 'RevealEstimations',
+        estimation: index
+      })
+      ws.send(message)
+    }
+  }
+  const current_user_is_owner = room ? room.owner === username : false
+  const current_estimation = room ? room.current_estimation : 0
+  const current_question =
+    room && room.estimations.length > 0
+      ? room.estimations[current_estimation].question
+      : ''
 
   return (
     <div className='room_wrapper'>
-      <h1>Room: {room ? room.name : 'Loading...'}</h1>
-      {room && (
-        <div>
-          <h2>Estimations</h2>
-          <ul>
-            {room.estimations.map((estimation, index) => (
-              <li key={index}>
-                {Object.keys(estimation)[0]}:{' '}
-                {estimation[Object.keys(estimation)[0]].question}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <Userbar
+        roomName={room ? room.name : ''}
+        users={room ? room.users : []}
+      />
+      {room && current_user_is_owner && (
+        <Estimations
+          estimations={room.estimations}
+          onRevealEstimations={onRevealEstimations}
+          onSetCurrentEstimation={onSetCurrentEstimation}
+          onAddQuestion={handleAddQuestion}
+        />
       )}
-      <div>
-        <h2>Messages</h2>
-        <div id='log'>
-          {messages.map((msg, index) => (
-            <p key={index} className='msg msg--message'>
-              {msg}
-            </p>
-          ))}
-        </div>
-        <form onSubmit={sendMessage}>
-          <input
-            type='text'
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            autoComplete='off'
-          />
-          <button type='submit'>Send</button>
-        </form>
-      </div>
-      <ScrumPokerTable users={room ? room.users : []} user='user' />
-      <Deck onCardClick={(sth) => console.log(sth)} />
+      <ScrumPokerTable
+        question={current_question}
+        users={room ? room.users : []}
+        user={username}
+      />
+      <Deck onCardClick={(answer) => handleAddAnswer(answer)} />
     </div>
   )
 }

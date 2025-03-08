@@ -9,22 +9,31 @@ import {
 import { axiosBackendInstance } from '../../../axiosInstance/axiosBackendInstance'
 import CreateRoomForm from '../createRoomForm/createRoomForm'
 import ListRooms from '../listRooms/listRooms'
-import type { Room as R } from '../listRooms/listRooms'
 import Room from '../room/room'
+import {
+  UsernameProvider,
+  useUsername
+} from '../../usernameContext/usernameContext'
+
+interface ListResponse {
+  username: string
+  rooms: { id: string; name: string }[]
+}
 
 const RoomRouter: React.FC = () => {
-  const [rooms, setRooms] = useState<R[]>([])
+  const [rooms, setRooms] = useState<ListResponse['rooms']>([])
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
   const location = useLocation()
+  const { setUsername } = useUsername()
 
   useEffect(() => {
     const fetchRooms = async () => {
       try {
         const response = await axiosBackendInstance.get('/list_rooms')
-        if (response.status === 200 && response.data.length > 0) {
-          setRooms(response.data)
-
+        if (response.status === 200 && response.data.rooms.length > 0) {
+          setRooms(response.data.rooms)
+          setUsername(response.data.username)
           //if location is /room/:id, redirect to room/:id
           if (location.pathname.includes('/room/')) {
             const roomId = location.pathname.split('/').pop()
@@ -37,7 +46,6 @@ const RoomRouter: React.FC = () => {
           navigate('/create-room')
         }
       } catch (error) {
-        console.error('Error fetching rooms:', error)
         navigate('/create-room')
       } finally {
         setLoading(false)
@@ -63,9 +71,11 @@ const RoomRouter: React.FC = () => {
 const RouterApp = () => {
   return (
     <React.StrictMode>
-      <Router>
-        <RoomRouter />
-      </Router>
+      <UsernameProvider>
+        <Router>
+          <RoomRouter />
+        </Router>
+      </UsernameProvider>
     </React.StrictMode>
   )
 }

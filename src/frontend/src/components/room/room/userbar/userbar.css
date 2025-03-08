@@ -1,0 +1,24 @@
+.userbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.userbar__room-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.userbar__hint-name {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-right: 20px;
+}
+
+.userbar__users {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
