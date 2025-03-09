@@ -1,0 +1,87 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 33vh;
+  width: 470px;
+}
+
+.hero__cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.hero__cards .card {
+  position: absolute;
+}
+
+.hero__cards .card:first-child {
+  transform: rotate(30deg);
+  left: -50px;
+}
+
+.hero__cards .card:last-child {
+  transform: rotate(-30deg);
+  right: -50px;
+}
+
+.hero__banner {
+  position: absolute;
+  color: #fff;
+  padding: 10px 20px;
+  margin-top: 5em;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* HTML: <div class="ribbon">Your text content</div> */
+.ribbon {
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+}
+.ribbon {
+  --s: 3em; /* the ribbon size */
+  --d: 1em; /* the depth */
+  --c: 1em; /* the cutout part */
+  padding: 0 calc(var(--s) + 0.5em) var(--d);
+  line-height: 3em;
+  background:
+    conic-gradient(
+        at left var(--s) bottom var(--d),
+        #0000 25%,
+        #0008 0 37.5%,
+        #0004 0
+      )
+      0 /50% 100% no-repeat,
+    conic-gradient(
+        at right var(--s) bottom var(--d),
+        #0004 62.5%,
+        #0008 0 75%,
+        #0000 0
+      )
+      100%/50% 100% no-repeat;
+  clip-path: polygon(
+    0 var(--d),
+    var(--s) var(--d),
+    var(--s) 0,
+    calc(100% - var(--s)) 0,
+    calc(100% - var(--s)) var(--d),
+    100% var(--d),
+    calc(100% - var(--c)) calc(50% + var(--d) / 2),
+    100% 100%,
+    calc(100% - var(--s) - var(--d)) 100%,
+    calc(100% - var(--s) - var(--d)) calc(100% - var(--d)),
+    calc(var(--s) + var(--d)) calc(100% - var(--d)),
+    calc(var(--s) + var(--d)) 100%,
+    0 100%,
+    var(--c) calc(50% + var(--d) / 2)
+  );
+  background-color: #cc333f; /* the main color */
+  width: fit-content;
+}

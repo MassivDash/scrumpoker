@@ -1,0 +1,29 @@
+---
+import RustIcon from '../../svgs/RustIcon.astro'
+import Github from '../../svgs/Github.astro'
+import AstroIcon from '../../svgs/AstroIcon.astro'
+import Actix from '../../svgs/Actix.astro'
+---
+
+<div class='icon-bar'>
+  <RustIcon width={24} height={24} />
+  <Github width={24} height={24} />
+  <AstroIcon width={24} height={24} />
+  <Actix width={24} height={24} />
+</div>
+
+<style>
+  .icon-bar {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .icon-bar svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+</style>

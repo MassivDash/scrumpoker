@@ -1,19 +1,13 @@
-<nav>
-  <ul>
-    <li>
-      <a href='/'>main</a>
-    </li>
-    <li>
-      <a href='/cli'>cli</a>
-    </li>
-    <li><a href='/astro'>astro</a></li>
-    <li><a href='/actix'>actix</a></li>
-  </ul>
-</nav>
+---
+import IconBar from './iconbar/IconBar.astro'
+---
+
 <footer>
   <div class='footer'>
     <div class='flex'>
-      <a href='https://github.com/MassivDash/astroX'>Astro X</a>
+      <a href='https://github.com/MassivDash/astroX'
+        >Build on Astro X template</a
+      >
       <p>by</p>
       <a href='https://github.com/MassivDash'>Spaceghost</a>
     </div>
@@ -21,13 +15,15 @@
       <a href='https://spaceout.pl'>spaceout.pl</a>
     </div>
   </div>
+  <IconBar />
 </footer>
 
 <style>
   footer {
-    background-color: rgb(44 44 44);
-    color: white;
+    background-color: whitesmoke;
+    color: rgb(44 44 44);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 10px;
@@ -47,11 +43,12 @@
   }
 
   a {
-    color: white;
+    color: rgb(6, 6, 6);
     text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 
   ul {
@@ -62,13 +59,13 @@
     align-items: center;
     gap: 50px;
     background-color: whitesmoke;
+  }
 
-    a {
-      color: rgba(6, 6, 6, 0.854);
-    }
+  ul a {
+    color: rgba(6, 6, 6, 0.854);
+  }
 
-    &:hover {
-      color: rgb(6, 6, 6);
-    }
+  ul:hover {
+    color: rgb(6, 6, 6);
   }
 </style>

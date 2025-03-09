@@ -3,6 +3,7 @@ use crate::cli::config::get_config::Config;
 use crate::cli::pre_run::npm::checks::NPM;
 use crate::cli::utils::terminal::{dev_info, do_front_log, do_server_log, step, success, warning};
 use ctrlc::set_handler;
+use std::collections::HashMap;
 use std::io::Read;
 use std::process::Command;
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -14,7 +15,6 @@ use std::time::Duration;
 /// The development server will start the actix backend server and the astro frontend server
 /// The development server will also check if the port is available for the backend server, and loop until it finds the available port
 /// The development server will also clean up the orphaned processes, otherwise cargo watch and node watch will continue to run, blocking the ports.
-
 pub fn start_development(config: Config) {
     // Set the ctrl-c handler to exit the program and clean up orphaned processes
     let running = Arc::new(AtomicBool::new(true));
@@ -53,11 +53,18 @@ pub fn start_development(config: Config) {
     // kill the listener
     drop(astro_port_listener);
 
-    // Crate the host env for astro to call the actix backend server
-    create_dotenv_frontend(
-        &format!("http://{}:{}/api/", config.host, port),
-        "./src/frontend/.env",
+    let mut dev_public_keys = HashMap::new();
+    dev_public_keys.insert(
+        "public_api_url".to_string(),
+        format!("http://{}:{}/api", config.host, port),
     );
+    dev_public_keys.insert(
+        "public_ws_url".to_string(),
+        format!("ws://{}:{}/ws/", config.host, port),
+    );
+
+    // Crate the host env for astro to call the actix backend server
+    create_dotenv_frontend(dev_public_keys, "./src/frontend/.env");
 
     // Start the backend development server
 

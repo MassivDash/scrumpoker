@@ -67,7 +67,15 @@ pub fn collect_config_args(config: Config, args: &Vec<String>) -> Config {
         }
 
         if arg.starts_with("--public-api-url=") {
-            config.public_keys.public_api_url = split_and_collect(arg);
+            config
+                .public_keys
+                .insert("public_api_url".to_string(), split_and_collect(arg));
+        }
+
+        if arg.starts_with("--public-ws-url=") {
+            config
+                .public_keys
+                .insert("public_ws_url".to_string(), split_and_collect(arg));
         }
     }
 
@@ -76,7 +84,6 @@ pub fn collect_config_args(config: Config, args: &Vec<String>) -> Config {
 
 #[cfg(test)]
 mod tests {
-    use crate::cli::config::get_config::PublicKeys;
 
     use super::*;
 
@@ -107,8 +114,16 @@ mod tests {
             prod_astro_build: false,
             cors_url: "".to_string(),
             public_keys: {
-                let public_api_url = "http://localhost:8080/api".to_string();
-                PublicKeys { public_api_url }
+                let mut public_keys = std::collections::HashMap::new();
+                public_keys.insert(
+                    "public_api_url".to_string(),
+                    "http://localhost:8080/api".to_string(),
+                );
+                public_keys.insert(
+                    "public_ws_url".to_string(),
+                    "ws://localhost:8080/ws/".to_string(),
+                );
+                public_keys
             },
         };
 
@@ -130,11 +145,18 @@ mod tests {
             cors_url: "http://localhost:8080".to_string(),
             prod_astro_build: true,
             public_keys: {
-                let public_api_url = "https://custom.api/api".to_string();
-                PublicKeys { public_api_url }
+                let mut public_keys = std::collections::HashMap::new();
+                public_keys.insert(
+                    "public_api_url".to_string(),
+                    "https://custom.api/api".to_string(),
+                );
+                public_keys.insert(
+                    "public_ws_url".to_string(),
+                    "ws://custom.api/api".to_string(),
+                );
+                public_keys
             },
         };
-
         assert_eq!(collect_config_args(config, &args), expected_config);
     }
 }

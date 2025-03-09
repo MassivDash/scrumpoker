@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use super::collect_args::collect_config_args;
 use super::toml::read_toml;
 use serde::Deserialize;
@@ -11,12 +13,13 @@ pub struct Config {
     pub astro_port: Option<u16>,
     pub cors_url: String,
     pub prod_astro_build: bool,
-    pub public_keys: PublicKeys,
+    pub public_keys: HashMap<String, String>,
 }
 
 #[derive(Deserialize, Debug, Serialize, PartialEq)]
 pub struct PublicKeys {
     pub public_api_url: String,
+    pub public_ws_url: String,
 }
 
 pub fn get_config(args: &Vec<String>) -> Config {
@@ -32,8 +35,17 @@ pub fn get_config(args: &Vec<String>) -> Config {
         prod_astro_build: false,
         astro_port: Some(astro_port),
         cors_url,
-        public_keys: PublicKeys {
-            public_api_url: "http://localhost:8080/api".to_string(),
+        public_keys: {
+            let mut keys = HashMap::new();
+            keys.insert(
+                "public_api_url".to_string(),
+                "http://localhost:8080/api".to_string(),
+            );
+            keys.insert(
+                "public_ws_url".to_string(),
+                "ws://localhost:8080/ws/".to_string(),
+            );
+            keys
         },
     };
 

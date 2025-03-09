@@ -1,57 +1,12 @@
 ---
-import GithubIcon from '../../svgs/Github.astro'
 import SpaceoutIcon from '../../svgs/Spaceout.astro'
-import AstroIcon from '../../svgs/AstroIcon.astro'
-import RustIcon from '../../svgs/RustIcon.astro'
-import ActixIcon from '../../svgs/Actix.astro'
-import NavbarItem from './NavbarItem.astro'
 ---
-
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const homeLink = document.getElementById('homeIcon')
-    const isHome = window.location.pathname === '/'
-    isHome && homeLink?.classList.add('active')
-  })
-</script>
 
 <nav>
   <div class='nav'>
-    <ul>
-      <li>
-        <a id='home-link' href='/'>
-          <div class='logo'>
-            <p>astro <span id='homeIcon' class='navi-link'>X</span></p>
-          </div></a
-        >
-      </li>
-      <NavbarItem id='cli-link' href='/cli'>
-        <RustIcon height={30} width={30} />
-        <p>cli</p>
-      </NavbarItem>
-      <NavbarItem id='actix-link' href='/actix'>
-        <ActixIcon height={30} width={30} />
-        <p>actiX</p>
-      </NavbarItem>
-      <NavbarItem id='astro-link' href='/astro'>
-        <AstroIcon height={30} width={30} />
-        <p>astro</p>
-      </NavbarItem>
-    </ul>
-    <ul class='social-links'>
-      <NavbarItem
-        external
-        id='github-link'
-        href='https://github.com/MassivDash/AstroX'
-      >
-        <GithubIcon height={28} width={28} />
-        <p>Repository</p>
-      </NavbarItem>
-      <NavbarItem external id='spaceout-link' href='https://spaceout.pl'>
-        <SpaceoutIcon height={35} width={35} />
-        <p>Spaceout</p>
-      </NavbarItem>
-    </ul>
+    <a id='spaceout-link' href='https://scrumpoker.spaceout.pl'>
+      <SpaceoutIcon height={35} width={35} />
+    </a>
   </div>
 </nav>
 
@@ -62,143 +17,13 @@ import NavbarItem from './NavbarItem.astro'
     position: relative;
     top: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 0;
   }
 
   .nav {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
-  }
-
-  .logo {
-    padding-left: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  p {
-    font-weight: 700;
-    font-size: 2rem;
-    color: #333;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  ul {
-    display: flex;
-    list-style: none;
-    padding: 0 1rem;
-    align-items: center;
-    width: 100%;
-  }
-
-  .social-links {
-    justify-content: flex-end;
-  }
-
-  span {
-    font-weight: 700;
-    font-size: 2.5rem;
-    color: #8b8b8b;
-    line-height: 1.5;
-    padding-bottom: 5px;
-  }
-
-  li {
-    margin: 0 1rem;
-
-    &:first-child {
-      margin-right: 30px;
-    }
-  }
-
-  a {
-    text-decoration: none;
-    color: #8b8b8b;
-    text-transform: lowercase;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    font-size: smaller;
-    transition: all 0.7s ease-in-out;
-    &:hover {
-      color: #0a0909;
-    }
-  }
-
-  .navi-link {
-    display: flex;
-    position: relative;
-    width: 80px;
-    height: 80px;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(90deg, #f6f6f6, #eeeeee, #f4f4f4, #fefefe);
-    border-radius: 45px;
-    box-shadow: inset 0px 1px 2px 1px #1f1e1a69;
-    transition: all 0.7s cubic-bezier(0, 1.5, 1, 1.5);
-    p {
-      position: absolute;
-      margin: 10px auto;
-      font-size: 0.6rem;
-      opacity: 0;
-      bottom: -40px;
-      transition: all 0.7s ease-in-out;
-    }
-
-    &:hover {
-      color: #0a0909;
-      box-shadow: inset 0px 0px 0px 0px #1f1e1a69;
-      p {
-        display: block;
-        opacity: 1;
-        transition: all 0.7s ease-in-out;
-      }
-
-      a {
-        color: #0a0909;
-        transition: all 0.7s ease-in-out;
-      }
-
-      &:active {
-        box-shadow: inset 0px 1px 2px 3px #1f1e1a69;
-      }
-    }
-  }
-
-  .active {
-    box-shadow: none;
-    color: #0a0909;
-    transform: scale(1);
-    filter: drop-shadow(1px 1px 1px rgba(30, 21, 21, 3.47));
-    background: linear-gradient(-90deg, #f6f6f6, #eeeeee, #f4f4f4, #fefefe);
-    position: relative;
-    transitions: all 0.7s ease-in-out;
-
-    &:active {
-      box-shadow: inset 0px 1px 2px 3px #1f1e1a69;
-    }
-
-    p {
-      display: none;
-    }
-
-    .logo > p {
-      color: #0a0909;
-      display: flex;
-      margin: auto;
-      position: relative;
-      font-size: 2rem;
-      transition: all 0.7s ease-in-out;
-    }
-
-    a {
-      color: #0a0909;
-      transition: all 0.7s ease-in-out;
-    }
+    padding-left: 1em;
   }
 </style>

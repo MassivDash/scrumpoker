@@ -11,7 +11,6 @@ use std::sync::Arc;
 /// Start the production server
 /// The production server will start the actix backend server
 /// The production server will also bundle the frontend
-
 pub fn start_production(config: Config) {
     // Bundle the frontend and wait for the process to finish
     // if the astro build is set to true
@@ -27,9 +26,8 @@ pub fn start_production(config: Config) {
 
     if config.prod_astro_build {
         // take production build url from config
-        let prod_build_url = config.public_keys.public_api_url;
 
-        create_dotenv_frontend(&prod_build_url, "./src/frontend/.env");
+        create_dotenv_frontend(config.public_keys, "./src/frontend/.env");
 
         step("Bundling the frontend");
 
