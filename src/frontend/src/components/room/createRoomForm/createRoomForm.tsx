@@ -2,7 +2,14 @@ import React, { useState } from 'react'
 import { axiosBackendInstance } from '../../../axiosInstance/axiosBackendInstance'
 import { useNavigate } from 'react-router-dom'
 import Hero from '../../hero/hero'
-const CreateRoomForm: React.FC = () => {
+
+interface CreateRoomFormProps {
+  roomOnly?: boolean
+}
+
+const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
+  roomOnly = false
+}) => {
   const [username, setUsername] = useState('')
   const [roomname, setRoomname] = useState('')
 
@@ -11,11 +18,18 @@ const CreateRoomForm: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
 
+    let response = null
     try {
-      const response = await axiosBackendInstance.post('/create_room', {
-        user_name: username,
-        room_name: roomname
-      })
+      if (!roomOnly) {
+        response = await axiosBackendInstance.post('/create_room', {
+          user_name: username,
+          room_name: roomname
+        })
+      } else {
+        response = await axiosBackendInstance.post('/create_room_session', {
+          room_name: roomname
+        })
+      }
 
       if (response.status === 200) {
         alert('Room created successfully!')
@@ -36,16 +50,20 @@ const CreateRoomForm: React.FC = () => {
     <>
       <Hero />
       <form onSubmit={handleSubmit}>
-        <label htmlFor='username'>Username:</label>
-        <input
-          type='text'
-          id='username'
-          name='username'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <br />
+        {!roomOnly && (
+          <>
+            <label htmlFor='username'>Username:</label>
+            <input
+              type='text'
+              id='username'
+              name='username'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <br />
+          </>
+        )}
         <label htmlFor='roomname'>Room Name:</label>
         <input
           type='text'

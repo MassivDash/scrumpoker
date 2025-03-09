@@ -8,10 +8,15 @@ import './room.css'
 import { useUsername } from '../../usernameContext/usernameContext'
 import Estimations from './estimations/estimations'
 
+export interface Answer {
+  username: string
+  answer: string
+}
+
 export interface Estimation {
   question: string
   revealed: boolean
-  answers: Array<string>
+  answers: Array<Answer>
 }
 export interface Room {
   id: string
@@ -61,7 +66,7 @@ const Room = () => {
       .catch((error) => {
         console.error('Error fetching room details:', error)
       })
-  }, [roomId])
+  }, [roomId, username])
 
   const handleWsMessage = (message) => {
     try {
@@ -116,6 +121,12 @@ const Room = () => {
     room && room.estimations.length > 0
       ? room.estimations[current_estimation].question
       : ''
+  const current_vote =
+    room &&
+    room.estimations.length > 0 &&
+    room.estimations[current_estimation].answers.find(
+      (answer) => answer.username === username
+    )
 
   return (
     <div className='room_wrapper'>
@@ -135,8 +146,12 @@ const Room = () => {
         question={current_question}
         users={room ? room.users : []}
         user={username}
+        estimations={room ? room.estimations : []}
       />
-      <Deck onCardClick={(answer) => handleAddAnswer(answer)} />
+      <Deck
+        onCardClick={(answer) => handleAddAnswer(answer)}
+        presentedCard={current_vote?.answer}
+      />
     </div>
   )
 }

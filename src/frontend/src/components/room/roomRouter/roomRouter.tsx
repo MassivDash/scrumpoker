@@ -31,7 +31,11 @@ const RoomRouter: React.FC = () => {
     const fetchRooms = async () => {
       try {
         const response = await axiosBackendInstance.get('/list_rooms')
-        if (response.status === 200 && response.data.rooms.length > 0) {
+        if (
+          response.status === 200 &&
+          response.data.rooms.length > 0 &&
+          response.data.username
+        ) {
           setRooms(response.data.rooms)
           setUsername(response.data.username)
           //if location is /room/:id, redirect to room/:id
@@ -42,8 +46,6 @@ const RoomRouter: React.FC = () => {
           }
 
           navigate('/rooms')
-        } else {
-          navigate('/create-room')
         }
       } catch (error) {
         navigate('/create-room')
@@ -64,6 +66,7 @@ const RoomRouter: React.FC = () => {
       <Route path='/room/:id' element={<Room />} />
       <Route path='/rooms' element={<ListRooms rooms={rooms} />} />
       <Route path='/create-room' element={<CreateRoomForm />} />
+      <Route path='/' element={<CreateRoomForm />} />
     </Routes>
   )
 }

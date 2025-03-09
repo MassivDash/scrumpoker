@@ -28,7 +28,8 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.deck .card:hover {
+.deck .card:hover,
+.deck .card--selected {
   transform: translateY(
       calc(var(--current-translate-y, 0px) - var(--card-height) / 4)
     )

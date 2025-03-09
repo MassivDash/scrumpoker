@@ -2,8 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f0f0f0;
+  margin: 100px auto;
 }
 
 .table {
@@ -29,4 +28,12 @@
 
 .current-user {
   background-color: #ffcc00;
+}
+
+.table-question {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-origin: center -150px;
+  z-index: 20;
 }

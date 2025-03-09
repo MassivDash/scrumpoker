@@ -6,9 +6,16 @@ interface CardProps {
   value: string
   symbols: number
   onClick?: () => void
+  selected?: boolean
 }
 
-const Card: React.FC<CardProps> = ({ suit, value, symbols, onClick }) => {
+const Card: React.FC<CardProps> = ({
+  suit,
+  value,
+  symbols,
+  onClick,
+  selected
+}) => {
   const renderSymbols = (count: number) => {
     const symbolElements = []
     for (let i = 0; i < count; i++) {
@@ -19,7 +26,7 @@ const Card: React.FC<CardProps> = ({ suit, value, symbols, onClick }) => {
 
   return (
     <section
-      className={`card card--${suit}`}
+      className={`card card--${suit} ${selected ? 'card--selected' : ''}`}
       value={value}
       onClick={onClick}
       style={{ zIndex: value }}

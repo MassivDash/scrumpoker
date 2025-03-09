@@ -9,6 +9,7 @@ use actix_web::web::Payload;
 use actix_web::Error;
 use actix_web::{middleware, web, App, HttpRequest, HttpResponse, HttpServer};
 use api::room::create_room::create_room;
+use api::room::create_room_session::create_room_session;
 use api::room::get_room::get_room;
 use api::room::list_rooms::list_rooms;
 use api::room::ws_handler::room_ws;
@@ -69,6 +70,10 @@ async fn main() -> std::io::Result<()> {
             .app_data(app_state.clone())
             .wrap(cors)
             .route("/api/create_room", web::post().to(create_room))
+            .route(
+                "/api/create_room_session",
+                web::post().to(create_room_session),
+            )
             .route("/api/list_rooms", web::get().to(list_rooms))
             .route("/api/get_room/{room_id}", web::get().to(get_room))
             .route("/ws/{room_id}", web::get().to(ws_handler))
