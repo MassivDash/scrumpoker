@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { axiosBackendInstance } from '../../../axiosInstance/axiosBackendInstance'
 import { useNavigate } from 'react-router-dom'
 import Hero from '../../hero/hero'
+import './createRoomForm.css'
 
 interface CreateRoomFormProps {
   roomOnly?: boolean
@@ -48,7 +49,6 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
 
   return (
     <>
-      <Hero />
       <form onSubmit={handleSubmit}>
         {!roomOnly && (
           <>

@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro'
 import RoomRouter from '../components/room/roomRouter/roomRouter'
 ---
 
-<Layout title='Welcome to AstroX.'>
-  <RoomRouter client:only='react' />
+<Layout title='Scrum Poker by spaceout.pl'>
+  <div transition:animate='fade'>
+    <RoomRouter client:only='react' />
+  </div>
 </Layout>

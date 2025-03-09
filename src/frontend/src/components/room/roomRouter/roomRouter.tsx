@@ -14,10 +14,20 @@ import {
   UsernameProvider,
   useUsername
 } from '../../usernameContext/usernameContext'
+import Hero from '../../hero/hero'
 
 interface ListResponse {
   username: string
   rooms: { id: string; name: string }[]
+}
+
+const CreateWithHero = () => {
+  return (
+    <div className='list-rooms-container'>
+      <Hero />
+      <CreateRoomForm />
+    </div>
+  )
 }
 
 const RoomRouter: React.FC = () => {
@@ -65,8 +75,8 @@ const RoomRouter: React.FC = () => {
     <Routes>
       <Route path='/room/:id' element={<Room />} />
       <Route path='/rooms' element={<ListRooms rooms={rooms} />} />
-      <Route path='/create-room' element={<CreateRoomForm />} />
-      <Route path='/' element={<CreateRoomForm />} />
+      <Route path='/create-room' element={<CreateWithHero />} />
+      <Route path='/' element={<CreateWithHero />} />
     </Routes>
   )
 }

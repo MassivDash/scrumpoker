@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import CreateRoomForm from '../createRoomForm/createRoomForm'
 import { useUsername } from '../../usernameContext/usernameContext'
+import './listRooms.css'
+import Hero from '../../hero/hero'
 
 export interface Room {
   id: string
@@ -15,20 +17,22 @@ interface RoomProps {
 const ListRooms: React.FC<RoomProps> = ({ rooms }) => {
   const { username } = useUsername()
   return (
-    <div>
-      <CreateRoomForm roomOnly />
+    <div className='list-rooms-container'>
+      {' '}
+      <Hero />
       <h2>Welcome, {username}!</h2>
       <h3>Rooms:</h3>
-      <ul>
+      <div className='rooms-list'>
         {rooms.map((room) => (
-          <li key={room.id}>
-            <Link to={`/room/${room.id}`}>
-              {' '}
-              {room.name} (ID: {room.id})
-            </Link>
-          </li>
+          <Link to={`/room/${room.id}`} key={room.id} className='room-card'>
+            <div className='room-card-content'>
+              <h4>{room.name}</h4>
+              <p>ID: {room.id}</p>
+            </div>
+          </Link>
         ))}
-      </ul>
+      </div>
+      <CreateRoomForm roomOnly />
     </div>
   )
 }

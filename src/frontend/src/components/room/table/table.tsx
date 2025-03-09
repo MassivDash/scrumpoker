@@ -22,8 +22,14 @@ const ScrumPokerTable: React.FC<ScrumPokerTableProps> = ({
   return (
     <>
       <div className='question-holder'>
-        <div className='userbar__hint-name'>question:</div>
-        <h1 className='table-question'>{question}</h1>
+        {question === '' ? (
+          <h1 className='table-question'>Waiting for question...</h1>
+        ) : (
+          <>
+            <div className='userbar__hint-name'>question:</div>
+            <h1 className='table-question'>{question}</h1>
+          </>
+        )}
       </div>
       <div className='table-container'>
         <div className='table'>
