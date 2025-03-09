@@ -30,7 +30,7 @@ const Card: React.FC<CardProps> = ({
   return (
     <section
       className={`card card--${suit} ${selected ? 'card--selected' : ''} ${isBack ? 'card--back' : ''}`}
-      value={value}
+      data-value={value}
       onClick={onClick}
       style={{ zIndex: value }}
     >

@@ -1,9 +1,9 @@
 host = "localhost"
 port = 8080
-env = "dev"
+env = "prod"
 astro_port = 5431
 prod_astro_build = true
-cors_url = "http://localhost:5431"
+cors_url = "http://localhost:8080"
 
 [public_keys]
 public_api_url = "http://localhost:8080/api"

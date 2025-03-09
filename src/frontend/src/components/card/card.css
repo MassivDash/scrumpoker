@@ -43,7 +43,7 @@
 
 .card:before,
 .card:after {
-  content: attr(value);
+  content: attr(data-value);
   position: absolute;
   width: 12px;
   text-align: center;
@@ -67,7 +67,7 @@
 
 .card--heart:before,
 .card--heart:after {
-  content: attr(value) ' ♥';
+  content: attr(data-value) ' ♥';
 }
 
 .card--spade {
@@ -76,7 +76,7 @@
 
 .card--spade:before,
 .card--spade:after {
-  content: attr(value) ' ♠';
+  content: attr(data-value) ' ♠';
 }
 
 .card__inner {
