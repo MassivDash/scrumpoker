@@ -1,0 +1,121 @@
+---
+import SpaceoutIcon from '../../svgs/Spaceout.astro'
+---
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const homeLink = document.getElementById('homeIcon')
+    const isHome = window.location.pathname === '/'
+    isHome && homeLink?.classList.add('active')
+  })
+</script>
+
+<nav>
+  <div class='nav'>
+    <a id='spaceout-link' href='https://spaceout.pl'>
+      <SpaceoutIcon height={35} width={35} />
+    </a>
+  </div>
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    padding-left: 1em;
+  }
+
+  a {
+    text-decoration: none;
+    text-transform: lowercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: smaller;
+    &:hover {
+      color: #0a0909;
+    }
+  }
+
+  .navi-link {
+    display: flex;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 45px;
+    box-shadow: inset 0px 1px 2px 1px #1f1e1a69;
+    transition: all 0.7s cubic-bezier(0, 1.5, 1, 1.5);
+    p {
+      position: absolute;
+      margin: 10px auto;
+      font-size: 0.6rem;
+      opacity: 0;
+      bottom: -40px;
+      transition: all 0.7s ease-in-out;
+    }
+
+    &:hover {
+      color: #0a0909;
+      box-shadow: inset 0px 0px 0px 0px #1f1e1a69;
+      p {
+        display: block;
+        opacity: 1;
+        transition: all 0.7s ease-in-out;
+      }
+
+      a {
+        color: #0a0909;
+        transition: all 0.7s ease-in-out;
+      }
+
+      &:active {
+        box-shadow: inset 0px 1px 2px 3px #1f1e1a69;
+      }
+    }
+  }
+
+  .active {
+    box-shadow: none;
+    color: #0a0909;
+    transform: scale(1);
+    filter: drop-shadow(1px 1px 1px rgba(30, 21, 21, 3.47));
+    background: linear-gradient(-90deg, #f6f6f6, #eeeeee, #f4f4f4, #fefefe);
+    position: relative;
+    transitions: all 0.7s ease-in-out;
+
+    &:active {
+      box-shadow: inset 0px 1px 2px 3px #1f1e1a69;
+    }
+
+    p {
+      display: none;
+    }
+
+    .logo > p {
+      color: #0a0909;
+      display: flex;
+      margin: auto;
+      position: relative;
+      font-size: 2rem;
+      transition: all 0.7s ease-in-out;
+    }
+
+    a {
+      color: #0a0909;
+      transition: all 0.7s ease-in-out;
+    }
+  }
+</style>
