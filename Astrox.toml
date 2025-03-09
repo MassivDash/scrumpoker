@@ -7,3 +7,4 @@ cors_url = "http://localhost:5431"
 
 [public_keys]
 public_api_url = "http://localhost:8080/api"
+public_ws_url = "ws://localhost:8080/ws/"

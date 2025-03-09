@@ -1,5 +1,6 @@
-use super::get_config::{Config, PublicKeys};
+use super::get_config::Config;
 use crate::cli::utils::terminal::{error, spacer, step, success, warning};
+use std::collections::HashMap;
 
 pub fn read_toml(filename: &String) -> Result<Config, ()> {
     let toml_str = std::fs::read_to_string(filename);
@@ -8,10 +9,16 @@ pub fn read_toml(filename: &String) -> Result<Config, ()> {
         Ok(toml_str) => {
             success("Astrox.toml found");
 
-            let config = toml::from_str(&toml_str);
+            let config: Result<Config, toml::de::Error> = toml::from_str(&toml_str);
             match config {
-                Ok(config) => {
+                Ok(mut config) => {
                     step("loaded Astrox.toml");
+
+                    // Ensure public_keys is a HashMap
+                    if config.public_keys.is_empty() {
+                        config.public_keys = HashMap::new();
+                    }
+
                     Ok(config)
                 }
                 Err(e) => {
@@ -42,6 +49,16 @@ pub fn create_toml_file(file_name: String) -> Result<Config, ()> {
     let astro_port = 5431;
     let cors_url = format!("http://localhost:{}", astro_port);
 
+    let mut public_keys = HashMap::new();
+    public_keys.insert(
+        "public_api_url".to_string(),
+        "http://localhost:8080/api".to_string(),
+    );
+    public_keys.insert(
+        "public_ws_url".to_string(),
+        "ws://localhost:8080/ws/".to_string(),
+    );
+
     let config = Config {
         host: "localhost".to_string(),
         port: Some(8080),
@@ -49,10 +66,7 @@ pub fn create_toml_file(file_name: String) -> Result<Config, ()> {
         astro_port: Some(astro_port),
         cors_url,
         prod_astro_build: true,
-        public_keys: {
-            let public_api_url = "http://localhost:8080/api".to_string();
-            PublicKeys { public_api_url }
-        },
+        public_keys,
     };
 
     let toml_str = toml::to_string(&config);
@@ -82,6 +96,7 @@ pub fn create_toml_file(file_name: String) -> Result<Config, ()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::collections::HashMap;
 
     fn remove_file(file_name: &String) -> () {
         match std::fs::remove_file(&file_name) {
@@ -93,6 +108,16 @@ mod tests {
     #[test]
     fn test_read_toml_success() {
         // Arrange
+        let mut public_keys = HashMap::new();
+        public_keys.insert(
+            "public_api_url".to_string(),
+            "http://localhost:8080/api".to_string(),
+        );
+        public_keys.insert(
+            "public_ws_url".to_string(),
+            "ws://localhost:8080/ws/".to_string(),
+        );
+
         let expected_config = Config {
             host: "127.0.0.1".to_string(),
             port: Some(8080),
@@ -100,10 +125,7 @@ mod tests {
             astro_port: Some(5431),
             cors_url: "https://astrox.spaceout.pl".to_string(),
             prod_astro_build: true,
-            public_keys: {
-                let public_api_url = "http://localhost:8080/api".to_string();
-                PublicKeys { public_api_url }
-            },
+            public_keys,
         };
 
         let file_name: String = "Astrox-test.toml".to_string();

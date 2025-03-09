@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { axiosBackendInstance } from '../../../axiosInstance/axiosBackendInstance'
 import { useNavigate } from 'react-router-dom'
-import Hero from '../../hero/hero'
 import './createRoomForm.css'
+import { useUsername } from '../../usernameContext/usernameContext'
 
 interface CreateRoomFormProps {
   roomOnly?: boolean
@@ -11,8 +11,10 @@ interface CreateRoomFormProps {
 const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
   roomOnly = false
 }) => {
-  const [username, setUsername] = useState('')
+  const [usernameInput, setUsernameInput] = useState('')
   const [roomname, setRoomname] = useState('')
+
+  const { setUsername } = useUsername()
 
   const navigate = useNavigate()
 
@@ -23,7 +25,7 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
     try {
       if (!roomOnly) {
         response = await axiosBackendInstance.post('/create_room', {
-          user_name: username,
+          user_name: usernameInput,
           room_name: roomname
         })
       } else {
@@ -35,6 +37,7 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
       if (response.status === 200) {
         alert('Room created successfully!')
         // Redirect to the room page or handle success
+        setUsername(response.data.user_name)
         navigate(`/room/${response.data.room_id}`)
       } else {
         alert('Failed to create room.')
@@ -57,8 +60,8 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
               type='text'
               id='username'
               name='username'
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={usernameInput}
+              onChange={(e) => setUsernameInput(e.target.value)}
               required
             />
             <br />

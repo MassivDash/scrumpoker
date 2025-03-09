@@ -26,9 +26,8 @@ pub fn start_production(config: Config) {
 
     if config.prod_astro_build {
         // take production build url from config
-        let prod_build_url = config.public_keys.public_api_url;
 
-        create_dotenv_frontend(&prod_build_url, "./src/frontend/.env");
+        create_dotenv_frontend(config.public_keys, "./src/frontend/.env");
 
         step("Bundling the frontend");
 

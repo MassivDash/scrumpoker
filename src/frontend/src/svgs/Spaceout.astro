@@ -4,13 +4,13 @@ interface Props {
   height: number
 }
 
-const { width = 24, height = 24 } = Astro.props
+const { width = 50, height = 50 } = Astro.props
 ---
 
 <svg
   xmlns='http://www.w3.org/2000/svg'
-  width='50'
-  height='50'
+  width={width}
+  height={height}
   version='1.1'
   viewBox='0 0 99.046 99.069'
   class='Logo__Desktop'

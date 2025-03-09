@@ -5,6 +5,6 @@ import RoomRouter from '../components/room/roomRouter/roomRouter'
 
 <Layout title='Scrum Poker by spaceout.pl'>
   <div transition:animate='fade'>
-    <RoomRouter client:only='react' />
+    <RoomRouter ws_url={import.meta.env.PUBLIC_WS_URL} client:only='react' />
   </div>
 </Layout>

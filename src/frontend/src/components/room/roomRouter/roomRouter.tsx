@@ -30,7 +30,7 @@ const CreateWithHero = () => {
   )
 }
 
-const RoomRouter: React.FC = () => {
+const RoomRouter: React.FC<{ ws_url: string }> = ({ ws_url }) => {
   const [rooms, setRooms] = useState<ListResponse['rooms']>([])
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
@@ -54,7 +54,11 @@ const RoomRouter: React.FC = () => {
             navigate(`/room/${roomId}`)
             return
           }
+          navigate('/rooms')
+        }
 
+        if (response.status === 200 && response.data.username) {
+          setUsername(response.data.username)
           navigate('/rooms')
         }
       } catch (error) {
@@ -73,7 +77,7 @@ const RoomRouter: React.FC = () => {
 
   return (
     <Routes>
-      <Route path='/room/:id' element={<Room />} />
+      <Route path='/room/:id' element={<Room ws_url={ws_url} />} />
       <Route path='/rooms' element={<ListRooms rooms={rooms} />} />
       <Route path='/create-room' element={<CreateWithHero />} />
       <Route path='/' element={<CreateWithHero />} />
@@ -81,12 +85,12 @@ const RoomRouter: React.FC = () => {
   )
 }
 
-const RouterApp = () => {
+const RouterApp = ({ ws_url }) => {
   return (
     <React.StrictMode>
       <UsernameProvider>
         <Router>
-          <RoomRouter />
+          <RoomRouter ws_url={ws_url} />
         </Router>
       </UsernameProvider>
     </React.StrictMode>

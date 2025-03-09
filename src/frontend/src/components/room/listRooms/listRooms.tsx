@@ -27,17 +27,21 @@ const ListRooms: React.FC<RoomProps> = ({ rooms }) => {
       {' '}
       <Hero />
       <h2>Welcome, {username}!</h2>
-      <h3>Rooms:</h3>
-      <div className='rooms-list'>
-        {rooms.map((room) => (
-          <Link to={`/room/${room.id}`} key={room.id} className='room-card'>
-            <div className='room-card-content'>
-              <h4>{room.name}</h4>
-              <p>ID: {room.id}</p>
-            </div>
-          </Link>
-        ))}
-      </div>
+      {rooms.length > 0 && (
+        <>
+          <h3>Rooms:</h3>
+          <div className='rooms-list'>
+            {rooms.map((room) => (
+              <Link to={`/room/${room.id}`} key={room.id} className='room-card'>
+                <div className='room-card-content'>
+                  <h4>{room.name}</h4>
+                  <p>ID: {room.id}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
       <CreateRoomForm roomOnly />
     </div>
   )

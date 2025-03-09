@@ -5,6 +5,7 @@ import DeleteIcon from './svg/delete'
 import FlipIcon from './svg/flip'
 
 interface EstimationsProps {
+  currentEstimation: number
   estimations: Array<Estimation>
   onSetCurrentEstimation: (index: number) => void
   onRevealEstimations: (index: number) => void
@@ -13,6 +14,7 @@ interface EstimationsProps {
 }
 
 const Estimations: React.FC<EstimationsProps> = ({
+  currentEstimation = 0,
   estimations,
   onSetCurrentEstimation,
   onRevealEstimations,
@@ -33,7 +35,10 @@ const Estimations: React.FC<EstimationsProps> = ({
     <div className='estimations-menu'>
       <ul className='estimations-list'>
         {estimations.map((estimation, index) => (
-          <li key={index}>
+          <li
+            key={index}
+            className={index === currentEstimation ? 'current-estimation' : ''}
+          >
             <button
               className='question'
               onClick={() => onSetCurrentEstimation(index)}

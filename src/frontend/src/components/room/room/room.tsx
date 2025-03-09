@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { axiosBackendInstance } from '../../../axiosInstance/axiosBackendInstance'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Deck from '../../deck/deck'
@@ -27,12 +27,22 @@ export interface Room {
   users: string[]
 }
 
-const Room = () => {
+interface RoomProps {
+  ws_url: string
+}
+
+interface WSMessage {
+  type: string
+  data: Room
+}
+
+const Room: React.FC<RoomProps> = ({ ws_url }) => {
   const [room, setRoom] = useState<Room | null>(null)
   const [ws, setWs] = useState(null)
   const location = useLocation()
   const navigate = useNavigate()
   const { username } = useUsername()
+  console.log(username)
 
   const roomId = location.pathname.split('/').pop()
 
@@ -43,7 +53,9 @@ const Room = () => {
       .then((response) => {
         setRoom(response.data)
         // Establish WebSocket connection after room details are fetched
-        const socket = new WebSocket(`ws://localhost:8080/ws/${roomId}`)
+        const socket = new WebSocket(
+          `${ws_url ? ws_url : 'ws://localhost:8080/ws/'}${roomId}`
+        )
         setWs(socket)
 
         socket.onopen = () => {
@@ -70,7 +82,7 @@ const Room = () => {
       })
   }, [roomId, username])
 
-  const handleWsMessage = (message) => {
+  const handleWsMessage = (message: WSMessage) => {
     try {
       setRoom(() => message.data)
     } catch (error) {
@@ -78,7 +90,7 @@ const Room = () => {
     }
   }
 
-  const handleAddQuestion = (input) => {
+  const handleAddQuestion = (input: string) => {
     const message = JSON.stringify({
       type: 'AddQuestion',
       question: input
@@ -86,7 +98,7 @@ const Room = () => {
     ws.send(message)
   }
 
-  const handleRemoveQuestion = (index) => {
+  const handleRemoveQuestion = (index: number) => {
     const message = JSON.stringify({
       type: 'RemoveQuestion',
       estimation: index
@@ -146,6 +158,7 @@ const Room = () => {
       />
       {room && current_user_is_owner && (
         <Estimations
+          currentEstimation={current_estimation}
           estimations={room.estimations}
           onRevealEstimations={onRevealEstimations}
           onSetCurrentEstimation={onSetCurrentEstimation}

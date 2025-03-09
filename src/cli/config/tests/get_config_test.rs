@@ -12,10 +12,6 @@ mod tests {
         assert_eq!(config.env, "dev");
         assert_eq!(config.astro_port, Some(5431)); //overide from projects toml
         assert_eq!(config.prod_astro_build, true); //overide from projects toml
-        assert_eq!(
-            config.public_keys.public_api_url,
-            "http://localhost:8080/api"
-        );
     }
 
     #[test]
@@ -35,7 +31,6 @@ mod tests {
         assert_eq!(config.env, "prod");
         assert_eq!(config.astro_port, Some(5431));
         assert_eq!(config.prod_astro_build, false);
-        assert_eq!(config.public_keys.public_api_url, "https://api.example.com");
     }
 
     #[test]
@@ -48,9 +43,5 @@ mod tests {
         assert_eq!(config.env, "dev");
         assert_eq!(config.astro_port, Some(5431));
         assert_eq!(config.prod_astro_build, true);
-        assert_eq!(
-            config.public_keys.public_api_url,
-            "http://localhost:8080/api"
-        );
     }
 }

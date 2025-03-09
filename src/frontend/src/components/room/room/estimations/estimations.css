@@ -23,6 +23,7 @@
   transition: background-color 0.3s;
   border-bottom: 1px solid #ccc;
   margin-bottom: 5px;
+  transition: all 0.3s;
 }
 
 .question {
@@ -87,4 +88,8 @@
 .question:hover .tooltip {
   visibility: visible;
   opacity: 1;
+}
+
+.current-estimation {
+  transform: translateX(-10px);
 }
