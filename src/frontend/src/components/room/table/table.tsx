@@ -17,20 +17,17 @@ const ScrumPokerTable: React.FC<ScrumPokerTableProps> = ({
   question,
   estimations
 }) => {
-  const totalUsers = users.length
-  const angleStep = 360 / totalUsers
   const currentEstimation = estimations.find((est) => est.question === question)
 
   return (
     <>
-      <h1 className='table-question'>{question}</h1>
+      <div className='question-holder'>
+        <div className='userbar__hint-name'>question:</div>
+        <h1 className='table-question'>{question}</h1>
+      </div>
       <div className='table-container'>
         <div className='table'>
-          {users.map((u, index) => {
-            const angle = angleStep * index
-            const style = {
-              transform: `rotate(${angle}deg) translate(150px) rotate(-${angle}deg)`
-            }
+          {users.map((u) => {
             const userAnswer = currentEstimation?.answers.find(
               (answer) => answer.username === u
             )
@@ -43,12 +40,15 @@ const ScrumPokerTable: React.FC<ScrumPokerTableProps> = ({
               <div
                 key={u}
                 className={`user ${u === user ? 'current-user' : ''}`}
-                style={style}
               >
                 <UserIcon username={u} />
                 {userAnswer && (
                   <div className='user-card'>
-                    <Card suit='heart' value={cardValue} symbols={1} />
+                    <Card
+                      suit='heart'
+                      value={cardValue}
+                      symbols={parseInt(cardValue)}
+                    />
                   </div>
                 )}
               </div>

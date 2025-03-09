@@ -5,7 +5,7 @@
   --font-size: 16px;
   --card-background: #fff;
   --card-padding: 4px;
-  --card-width: 160px;
+  --card-width: 172px;
   --card-height: 228px;
   --card-color-red: #e44145;
   --card-color-black: #252525;
@@ -24,6 +24,21 @@
   background: var(--card-background);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
   transition: transform 0.3s ease-in-out;
+}
+
+.card--back {
+  background: repeating-linear-gradient(
+    45deg,
+    #606dbc,
+    #606dbc 10px,
+    #465298 10px,
+    #465298 20px
+  );
+}
+
+.card--back:after,
+.card--back:before {
+  content: none !important;
 }
 
 .card:before,
@@ -123,6 +138,16 @@
 
 .card__symbol--huge {
   flex-basis: calc(0.45 * var(--card-height));
+}
+
+.card__special-value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  font-weight: bold;
+  width: 100%;
+  height: 100%;
 }
 
 .title {

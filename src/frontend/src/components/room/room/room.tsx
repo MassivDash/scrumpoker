@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { axiosBackendInstance } from '../../../axiosInstance/axiosBackendInstance'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Deck from '../../deck/deck'
 import ScrumPokerTable from '../table/table'
 import Userbar from './userbar/userbar'
@@ -31,6 +31,7 @@ const Room = () => {
   const [room, setRoom] = useState<Room | null>(null)
   const [ws, setWs] = useState(null)
   const location = useLocation()
+  const navigate = useNavigate()
   const { username } = useUsername()
 
   const roomId = location.pathname.split('/').pop()
@@ -64,6 +65,7 @@ const Room = () => {
         }
       })
       .catch((error) => {
+        navigate('/rooms')
         console.error('Error fetching room details:', error)
       })
   }, [roomId, username])

@@ -24,95 +24,106 @@ const Card: React.FC<CardProps> = ({
     return symbolElements
   }
 
+  const isBack = value === '?'
+  const isSpecialValue = ['20', '40', '100'].includes(value)
+
   return (
     <section
-      className={`card card--${suit} ${selected ? 'card--selected' : ''}`}
+      className={`card card--${suit} ${selected ? 'card--selected' : ''} ${isBack ? 'card--back' : ''}`}
       value={value}
       onClick={onClick}
       style={{ zIndex: value }}
     >
-      <div
-        className={`card__inner ${symbols === 2 || symbols === 3 ? 'card__inner--centered' : ''}`}
-      >
-        {symbols <= 3 && (
-          <div className='card__column'>{renderSymbols(symbols)}</div>
-        )}
-        {symbols === 4 && (
-          <>
-            <div className='card__column'>{renderSymbols(2)}</div>
-            <div className='card__column'>{renderSymbols(2)}</div>
-          </>
-        )}
-        {symbols === 5 && (
-          <>
-            <div className='card__column'>{renderSymbols(2)}</div>
-            <div className='card__column card__column--centered'>
-              {renderSymbols(1)}
-            </div>
-            <div className='card__column'>{renderSymbols(2)}</div>
-          </>
-        )}
-        {symbols === 6 && (
-          <>
-            <div className='card__column'>{renderSymbols(3)}</div>
-            <div className='card__column'>{renderSymbols(3)}</div>
-          </>
-        )}
-        {symbols === 7 && (
-          <>
-            <div className='card__column'>{renderSymbols(3)}</div>
-            <div className='card__column card__column--centered'>
-              <div className='card__symbol card__symbol--huge'></div>
-            </div>
-            <div className='card__column'>{renderSymbols(3)}</div>
-          </>
-        )}
-        {symbols === 8 && (
-          <>
-            <div className='card__column'>{renderSymbols(3)}</div>
-            <div className='card__column card__column--centered'>
-              <div className='card__symbol card__symbol--big'></div>
-              <div className='card__symbol card__symbol--big'></div>
-            </div>
-            <div className='card__column'>{renderSymbols(3)}</div>
-          </>
-        )}
-        {symbols === 9 && (
-          <>
-            <div className='card__column'>
-              {renderSymbols(2)}
-              <div className='card__symbol card__symbol--rotated'></div>
-              {renderSymbols(1)}
-            </div>
-            <div className='card__column card__column--centered'>
-              <div className='card__symbol'></div>
-            </div>
-            <div className='card__column'>
-              {renderSymbols(1)}
-              <div className='card__symbol card__symbol--rotated'></div>
-              {renderSymbols(2)}
-            </div>
-          </>
-        )}
-        {symbols === 10 && (
-          <>
-            <div className='card__column'>
-              {renderSymbols(2)}
-              <div className='card__symbol card__symbol--rotated'></div>
-              {renderSymbols(1)}
-            </div>
-            <div className='card__column card__column--centered'>
-              <div className='card__symbol card__symbol--big'></div>
-              <div className='card__symbol card__symbol--big'></div>
-            </div>
-            <div className='card__column'>
-              {renderSymbols(1)}
-              <div className='card__symbol card__symbol--rotated'></div>
-              {renderSymbols(2)}
-            </div>
-          </>
-        )}
-      </div>
+      {!isBack && (
+        <div
+          className={`card__inner ${symbols === 2 || symbols === 3 ? 'card__inner--centered' : ''}`}
+        >
+          {isSpecialValue ? (
+            <div className='card__special-value'>{value}</div>
+          ) : (
+            <>
+              {symbols <= 3 && (
+                <div className='card__column'>{renderSymbols(symbols)}</div>
+              )}
+              {symbols === 4 && (
+                <>
+                  <div className='card__column'>{renderSymbols(2)}</div>
+                  <div className='card__column'>{renderSymbols(2)}</div>
+                </>
+              )}
+              {symbols === 5 && (
+                <>
+                  <div className='card__column'>{renderSymbols(2)}</div>
+                  <div className='card__column card__column--centered'>
+                    {renderSymbols(1)}
+                  </div>
+                  <div className='card__column'>{renderSymbols(2)}</div>
+                </>
+              )}
+              {symbols === 6 && (
+                <>
+                  <div className='card__column'>{renderSymbols(3)}</div>
+                  <div className='card__column'>{renderSymbols(3)}</div>
+                </>
+              )}
+              {symbols === 7 && (
+                <>
+                  <div className='card__column'>{renderSymbols(3)}</div>
+                  <div className='card__column card__column--centered'>
+                    <div className='card__symbol card__symbol--huge'></div>
+                  </div>
+                  <div className='card__column'>{renderSymbols(3)}</div>
+                </>
+              )}
+              {symbols === 8 && (
+                <>
+                  <div className='card__column'>{renderSymbols(3)}</div>
+                  <div className='card__column card__column--centered'>
+                    <div className='card__symbol card__symbol--big'></div>
+                    <div className='card__symbol card__symbol--big'></div>
+                  </div>
+                  <div className='card__column'>{renderSymbols(3)}</div>
+                </>
+              )}
+              {symbols === 9 && (
+                <>
+                  <div className='card__column'>
+                    {renderSymbols(2)}
+                    <div className='card__symbol card__symbol--rotated'></div>
+                    {renderSymbols(1)}
+                  </div>
+                  <div className='card__column card__column--centered'>
+                    <div className='card__symbol'></div>
+                  </div>
+                  <div className='card__column'>
+                    {renderSymbols(1)}
+                    <div className='card__symbol card__symbol--rotated'></div>
+                    {renderSymbols(2)}
+                  </div>
+                </>
+              )}
+              {symbols === 10 && (
+                <>
+                  <div className='card__column'>
+                    {renderSymbols(2)}
+                    <div className='card__symbol card__symbol--rotated'></div>
+                    {renderSymbols(1)}
+                  </div>
+                  <div className='card__column card__column--centered'>
+                    <div className='card__symbol card__symbol--big'></div>
+                    <div className='card__symbol card__symbol--big'></div>
+                  </div>
+                  <div className='card__column'>
+                    {renderSymbols(1)}
+                    <div className='card__symbol card__symbol--rotated'></div>
+                    {renderSymbols(2)}
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        </div>
+      )}
     </section>
   )
 }

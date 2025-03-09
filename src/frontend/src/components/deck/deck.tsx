@@ -9,7 +9,20 @@ interface DeckProps {
 
 const Deck: React.FC<DeckProps> = ({ onCardClick, presentedCard }) => {
   const suits = ['spade'] as const
-  const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10']
+  const values = [
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '20',
+    '40',
+    '100'
+  ] as const
 
   return (
     <div className='deck_wrapper'>

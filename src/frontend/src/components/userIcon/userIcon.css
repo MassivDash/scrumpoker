@@ -26,8 +26,8 @@
   border-radius: 5px;
   padding: 5px;
   position: absolute;
-  z-index: 1;
-  bottom: 125%; /* Position the tooltip above the icon */
+  z-index: 100;
+  top: 125%; /* Position the tooltip below the icon */
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
@@ -37,12 +37,12 @@
 .user-icon__tooltip::after {
   content: '';
   position: absolute;
-  top: 100%; /* Arrow at the bottom of the tooltip */
+  bottom: 100%; /* Arrow at the top of the tooltip */
   left: 50%;
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: #555 transparent transparent transparent;
+  border-color: transparent transparent #555 transparent;
 }
 
 .user-icon:hover .user-icon__tooltip {

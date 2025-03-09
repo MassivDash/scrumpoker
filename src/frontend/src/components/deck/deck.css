@@ -8,7 +8,7 @@
   flex-wrap: nowrap;
   flex-basis: 100%;
   margin: 0 auto;
-  transform: translateX(350px);
+  transform: translateX(50%);
 }
 
 .deck_wrapper {
@@ -18,6 +18,7 @@
   position: relative;
   width: 100%;
   height: 100%;
+  min-height: 500px;
   flex-wrap: nowrap;
   flex-basis: 100%;
   margin: 0 auto;
@@ -31,14 +32,14 @@
 .deck .card:hover,
 .deck .card--selected {
   transform: translateY(
-      calc(var(--current-translate-y, 0px) - var(--card-height) / 4)
+      calc(var(--current-translate-y, 0px) - var(--card-height) / 2.5)
     )
     translateX(var(--current-translate-x, 0px))
     rotate(var(--current-rotate, 0deg)) !important;
 }
 
 .deck .card:nth-child(1) {
-  --current-translate-y: 50px;
+  --current-translate-y: 70px;
   --current-translate-x: 0px;
   --current-rotate: -15deg;
   transform: translateY(var(--current-translate-y))
@@ -46,7 +47,7 @@
 }
 
 .deck .card:nth-child(2) {
-  --current-translate-y: 40px;
+  --current-translate-y: 60px;
   --current-translate-x: -100px;
   --current-rotate: -10deg;
   transform: translateY(var(--current-translate-y))
@@ -54,7 +55,7 @@
 }
 
 .deck .card:nth-child(3) {
-  --current-translate-y: 30px;
+  --current-translate-y: 50px;
   --current-translate-x: -200px;
   --current-rotate: -5deg;
   transform: translateY(var(--current-translate-y))
@@ -62,7 +63,7 @@
 }
 
 .deck .card:nth-child(4) {
-  --current-translate-y: 20px;
+  --current-translate-y: 40px;
   --current-translate-x: -300px;
   --current-rotate: 0deg;
   transform: translateY(var(--current-translate-y))
@@ -70,7 +71,7 @@
 }
 
 .deck .card:nth-child(5) {
-  --current-translate-y: 10px;
+  --current-translate-y: 30px;
   --current-translate-x: -400px;
   --current-rotate: 5deg;
   transform: translateY(var(--current-translate-y))
@@ -78,7 +79,7 @@
 }
 
 .deck .card:nth-child(6) {
-  --current-translate-y: 0px;
+  --current-translate-y: 20px;
   --current-translate-x: -500px;
   --current-rotate: 10deg;
   transform: translateY(var(--current-translate-y))
@@ -94,7 +95,7 @@
 }
 
 .deck .card:nth-child(8) {
-  --current-translate-y: 20px;
+  --current-translate-y: 0px;
   --current-translate-x: -700px;
   --current-rotate: 20deg;
   transform: translateY(var(--current-translate-y))
@@ -102,9 +103,33 @@
 }
 
 .deck .card:nth-child(9) {
-  --current-translate-y: 30px;
+  --current-translate-y: 10px;
   --current-translate-x: -800px;
   --current-rotate: 25deg;
+  transform: translateY(var(--current-translate-y))
+    translateX(var(--current-translate-x)) rotate(var(--current-rotate));
+}
+
+.deck .card:nth-child(10) {
+  --current-translate-y: 20px;
+  --current-translate-x: -900px;
+  --current-rotate: 30deg;
+  transform: translateY(var(--current-translate-y))
+    translateX(var(--current-translate-x)) rotate(var(--current-rotate));
+}
+
+.deck .card:nth-child(11) {
+  --current-translate-y: 30px;
+  --current-translate-x: -1000px;
+  --current-rotate: 35deg;
+  transform: translateY(var(--current-translate-y))
+    translateX(var(--current-translate-x)) rotate(var(--current-rotate));
+}
+
+.deck .card:nth-child(12) {
+  --current-translate-y: 40px;
+  --current-translate-x: -1100px;
+  --current-rotate: 40deg;
   transform: translateY(var(--current-translate-y))
     translateX(var(--current-translate-x)) rotate(var(--current-rotate));
 }
