@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import CreateRoomForm from '../createRoomForm/createRoomForm'
 import { useUsername } from '../../usernameContext/usernameContext'
 import './listRooms.css'
@@ -16,6 +16,12 @@ interface RoomProps {
 
 const ListRooms: React.FC<RoomProps> = ({ rooms }) => {
   const { username } = useUsername()
+  const navigate = useNavigate()
+
+  if (!username) {
+    navigate('/create-room')
+  }
+
   return (
     <div className='list-rooms-container'>
       {' '}

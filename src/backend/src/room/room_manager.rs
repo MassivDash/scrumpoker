@@ -110,6 +110,13 @@ impl AppState {
         }
     }
 
+    pub fn remove_estimation(&self, room_id: &str, estimation: u8) {
+        let mut rooms = self.rooms.lock().unwrap();
+        if let Some(room) = rooms.get_mut(room_id) {
+            room.estimations.remove(estimation as usize);
+        }
+    }
+
     pub fn add_estimation_answer(
         &self,
         room_id: &str,

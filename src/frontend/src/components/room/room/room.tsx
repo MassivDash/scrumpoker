@@ -86,6 +86,14 @@ const Room = () => {
     ws.send(message)
   }
 
+  const handleRemoveQuestion = (index) => {
+    const message = JSON.stringify({
+      type: 'RemoveQuestion',
+      estimation: index
+    })
+    ws.send(message)
+  }
+
   const handleAddAnswer = (answer: string) => {
     if (ws) {
       const message = JSON.stringify({
@@ -142,6 +150,7 @@ const Room = () => {
           onRevealEstimations={onRevealEstimations}
           onSetCurrentEstimation={onSetCurrentEstimation}
           onAddQuestion={handleAddQuestion}
+          removeQuestion={handleRemoveQuestion}
         />
       )}
       <ScrumPokerTable

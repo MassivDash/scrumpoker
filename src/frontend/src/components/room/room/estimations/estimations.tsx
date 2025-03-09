@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
 import type { Estimation } from '../room'
 import './estimations.css'
+import DeleteIcon from './svg/delete'
+import FlipIcon from './svg/flip'
 
 interface EstimationsProps {
   estimations: Array<Estimation>
   onSetCurrentEstimation: (index: number) => void
   onRevealEstimations: (index: number) => void
   onAddQuestion: (question: string) => void
+  removeQuestion: (index: number) => void
 }
 
 const Estimations: React.FC<EstimationsProps> = ({
   estimations,
   onSetCurrentEstimation,
   onRevealEstimations,
-  onAddQuestion
+  onAddQuestion,
+  removeQuestion
 }) => {
   const [input, setInput] = useState('')
 
@@ -35,15 +39,24 @@ const Estimations: React.FC<EstimationsProps> = ({
               onClick={() => onSetCurrentEstimation(index)}
             >
               {estimation.question}
+              <div className='tooltip'>Set current question</div>
             </button>
             {!estimation.revealed && (
               <button
-                className='reveal-button'
+                className='estimation-menu-button'
                 onClick={() => onRevealEstimations(index)}
               >
-                Reveal Cards
+                <FlipIcon />
+                <div className='tooltip'>Flip cards</div>
               </button>
             )}
+            <button
+              className='estimation-menu-button'
+              onClick={() => removeQuestion(index)}
+            >
+              <DeleteIcon />
+              <div className='tooltip'>Delete</div>
+            </button>
           </li>
         ))}
       </ul>

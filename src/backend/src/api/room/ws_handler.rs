@@ -21,6 +21,9 @@ enum WsMessage {
     AddQuestion {
         question: String,
     },
+    RemoveQuestion {
+        estimation: u8,
+    },
     AddAnswer {
         estimation: u8,
         answer: String,
@@ -153,6 +156,19 @@ async fn process_text_msg(
             if let Some(room) = app_state.get_room(room_id) {
                 let message = ResponseMessageWS {
                     type_: "AddQuestion".to_string(),
+                    data: room,
+                };
+
+                let serde_msg = serde_json::to_string(&message).unwrap();
+                app_state.broadcast(room_id, &serde_msg);
+            }
+        }
+        Ok(WsMessage::RemoveQuestion { estimation }) => {
+            app_state.remove_estimation(room_id, estimation);
+            // Get the current room object from the app state and broadcast the removed question
+            if let Some(room) = app_state.get_room(room_id) {
+                let message = ResponseMessageWS {
+                    type_: "RemoveQuestion".to_string(),
                     data: room,
                 };
 
