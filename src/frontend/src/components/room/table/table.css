@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 100px auto;
+  margin: 50px auto;
 }
 
 .table {
@@ -12,6 +12,7 @@
   align-items: center;
   gap: 20px;
   width: 100%;
+  min-height: 400px;
 }
 
 .user {

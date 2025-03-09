@@ -35,8 +35,6 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
       }
 
       if (response.status === 200) {
-        alert('Room created successfully!')
-        // Redirect to the room page or handle success
         setUsername(response.data.user_name)
         navigate(`/room/${response.data.room_id}`)
       } else {

@@ -15,6 +15,7 @@ pub struct CreateRoomRequest {
 pub struct CreateRoomResponse {
     pub room_name: String,
     pub room_id: String,
+    pub user_name: String,
 }
 
 pub async fn create_room_session(
@@ -36,7 +37,11 @@ pub async fn create_room_session(
     // Add room
     data.add_room(room_id.clone(), room_name.clone(), user_name.clone());
 
-    let response = CreateRoomResponse { room_name, room_id };
+    let response = CreateRoomResponse {
+        room_name,
+        room_id,
+        user_name,
+    };
 
     HttpResponse::Ok().json(response)
 }
