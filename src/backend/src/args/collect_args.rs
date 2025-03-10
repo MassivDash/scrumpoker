@@ -20,7 +20,7 @@ pub fn collect_args(args: Vec<String>) -> Args {
     let mut env = "dev";
     let mut host = "127.0.0.1";
     let mut port = 8080;
-    let mut cors_url = "astrox.spaceout.pl";
+    let mut cors_url = "localhost".to_string();
 
     for arg in &args {
         if arg.starts_with("--env=") {
@@ -47,7 +47,7 @@ pub fn collect_args(args: Vec<String>) -> Args {
         if arg.starts_with("--cors_url=") {
             let split: Vec<&str> = arg.split('=').collect();
             if split.len() == 2 {
-                cors_url = split[1];
+                cors_url = split[1].to_string();
             }
         }
     }

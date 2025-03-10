@@ -40,6 +40,11 @@
 .deck .card {
   position: relative;
   transition: transform 0.3s ease-in-out;
+  cursor: grab;
+}
+
+.deck .card--selected {
+  cursor: not-allowed;
 }
 
 .deck .card:hover,

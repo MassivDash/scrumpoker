@@ -22,7 +22,7 @@ const ScrumPokerTable: React.FC<ScrumPokerTableProps> = ({
   return (
     <>
       <div className='question-holder'>
-        {question === '' ? (
+        {question === '' || question === '0' ? (
           <h1 className='table-question'>Waiting for question...</h1>
         ) : (
           <>
