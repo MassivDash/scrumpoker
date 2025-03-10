@@ -88,7 +88,9 @@ async fn main() -> std::io::Result<()> {
                         Ok(ServiceResponse::new(req, res))
                     })),
             )
-            .wrap(session::session_middleware::session_middleware())
+            .wrap(session::session_middleware::session_middleware(
+                cors_url.clone(),
+            ))
             .wrap(set_up_flash_messages())
             .wrap(middleware::Compress::default())
             .wrap(middleware::Logger::default())
