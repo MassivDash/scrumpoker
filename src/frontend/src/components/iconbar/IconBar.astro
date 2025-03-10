@@ -6,10 +6,26 @@ import Actix from '../../svgs/Actix.astro'
 ---
 
 <div class='icon-bar'>
-  <RustIcon width={24} height={24} />
-  <Github width={24} height={24} />
-  <AstroIcon width={24} height={24} />
-  <Actix width={24} height={24} />
+  <a
+    href='https://www.rust-lang.org/'
+    target='_blank'
+    rel='noopener noreferrer'
+  >
+    <RustIcon width={24} height={24} />
+  </a>
+  <a
+    href='https://github.com/MassivDash/scrumpoker'
+    target='_blank'
+    rel='noopener noreferrer'
+  >
+    <Github width={24} height={24} />
+  </a>
+  <a href='https://astro.build/' target='_blank' rel='noopener noreferrer'>
+    <AstroIcon width={24} height={24} />
+  </a>
+  <a href='https://actix.rs/' target='_blank' rel='noopener noreferrer'>
+    <Actix width={24} height={24} />
+  </a>
 </div>
 
 <style>
@@ -25,5 +41,14 @@ import Actix from '../../svgs/Actix.astro'
     width: 24px;
     height: 24px;
     fill: currentColor;
+  }
+
+  .icon-bar a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .icon-bar a:hover {
+    opacity: 0.8;
   }
 </style>
