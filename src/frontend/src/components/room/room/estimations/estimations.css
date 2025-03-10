@@ -1,14 +1,20 @@
 .estimations-menu {
-  position: absolute;
+  position: relative;
   right: 5px;
   top: 100px;
-  width: 300px;
   background-color: #f0f0f0;
   border-right: 1px solid #ccc;
   padding: 10px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   max-height: 40vh;
   overflow-y: auto;
+}
+
+@media (min-width: 1024px) {
+  .estimations-menu {
+    position: absolute;
+    width: 300px;
+  }
 }
 
 .estimations-list {
