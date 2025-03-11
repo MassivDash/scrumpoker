@@ -3,7 +3,6 @@ import React from 'react'
 const FlipIcon: React.FC = () => {
   return (
     <svg
-      className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1iirmgg'
       focusable='false'
       aria-hidden='true'
       viewBox='0 0 24 24'

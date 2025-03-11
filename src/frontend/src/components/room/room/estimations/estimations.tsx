@@ -3,6 +3,8 @@ import type { Estimation } from '../room'
 import './estimations.css'
 import DeleteIcon from './svg/delete'
 import FlipIcon from './svg/flip'
+import DownloadIcon from './svg/download'
+import ExcelBar from './excelBar/excelBar'
 
 interface EstimationsProps {
   currentEstimation: number
@@ -33,6 +35,11 @@ const Estimations: React.FC<EstimationsProps> = ({
 
   return (
     <div className='estimations-menu'>
+      <div className='estimation-header'>
+        <p className='userbar__hint-name estimation-title'>questions</p>
+        <ExcelBar estimations={estimations} onAddQuestion={onAddQuestion} />
+      </div>
+
       <ul className='estimations-list'>
         {estimations.map((estimation, index) => (
           <li
