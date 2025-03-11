@@ -37,10 +37,9 @@ const ScrumPokerTable: React.FC<ScrumPokerTableProps> = ({
             const userAnswer = currentEstimation?.answers.find(
               (answer) => answer.username === u
             )
-            const cardValue =
-              u === user || currentEstimation?.revealed
-                ? userAnswer?.answer || '?'
-                : '?'
+            const cardValue = currentEstimation?.revealed
+              ? userAnswer?.answer || '?'
+              : '?'
 
             return (
               <div
