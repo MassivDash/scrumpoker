@@ -1,14 +1,15 @@
 .deck {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   position: relative;
   width: 100%;
+  min-width: 800px;
   height: 300px;
   flex-wrap: nowrap;
   flex-basis: 100%;
   margin: 0 auto;
-  transform: translateX(50%);
+  transform: translateX(1024px);
 }
 
 .deck_wrapper {
@@ -22,11 +23,28 @@
   flex-wrap: nowrap;
   flex-basis: 100%;
   margin: 0 auto;
+  overflow-x: scroll;
+}
+
+@media (min-width: 1520px) {
+  .deck {
+    min-width: 100%;
+    transform: translateX(30%);
+  }
+
+  .deck_wrapper {
+    overflow-x: hidden;
+  }
 }
 
 .deck .card {
   position: relative;
   transition: transform 0.3s ease-in-out;
+  cursor: grab;
+}
+
+.deck .card--selected {
+  cursor: not-allowed;
 }
 
 .deck .card:hover,

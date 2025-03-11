@@ -165,6 +165,11 @@ async fn process_text_msg(
         }
         Ok(WsMessage::RemoveQuestion { estimation }) => {
             app_state.remove_estimation(room_id, estimation);
+
+            let new_current_estimation = estimation.saturating_sub(1);
+
+            app_state.change_current_estimation(room_id, new_current_estimation);
+
             // Get the current room object from the app state and broadcast the removed question
             if let Some(room) = app_state.get_room(room_id) {
                 let message = ResponseMessageWS {

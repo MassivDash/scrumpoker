@@ -6,6 +6,8 @@
   position: relative;
   height: 33vh;
   width: 470px;
+  max-width: 100%;
+  min-height: 400px;
 }
 
 .hero__cards {

@@ -137,18 +137,26 @@ const Room: React.FC<RoomProps> = ({ ws_url }) => {
       ws.send(message)
     }
   }
+
+  console.log(room)
+
   const current_user_is_owner = room ? room.owner === username : false
   const current_estimation = room ? room.current_estimation : 0
   const current_question =
-    room && room.estimations.length > 0
+    room && room.estimations.length > 0 && room.estimations[current_estimation]
       ? room.estimations[current_estimation].question
-      : ''
+      : '0'
   const current_vote =
-    room &&
-    room.estimations.length > 0 &&
-    room.estimations[current_estimation].answers.find(
-      (answer) => answer.username === username
-    )
+    room && room.estimations.length > 0 && room.estimations[current_estimation]
+      ? room.estimations[current_estimation].answers.find(
+          (answer) => answer.username === username
+        )
+      : (room &&
+          room.estimations.length > 0 &&
+          room.estimations[0] &&
+          room.estimations[0].answers.find(
+            (answer) => answer.username === username
+          )) || { answer: '?' }
 
   return (
     <div className='room_wrapper'>

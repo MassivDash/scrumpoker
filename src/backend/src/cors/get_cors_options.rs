@@ -26,6 +26,7 @@ pub fn get_cors_options(env: String, allowed_origin: String) -> Cors {
             .allowed_methods(vec!["GET", "POST"])
             .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
             .allowed_header(http::header::CONTENT_TYPE)
+            .supports_credentials()
             .max_age(3600)
     } else {
         Cors::default()

@@ -17,7 +17,7 @@ import SpaceoutIcon from '../../svgs/Spaceout.astro'
     position: relative;
     top: 0;
     width: 100%;
-    z-index: 0;
+    z-index: 10000;
   }
 
   .nav {
@@ -25,5 +25,9 @@ import SpaceoutIcon from '../../svgs/Spaceout.astro'
     justify-content: flex-start;
     width: 100%;
     padding-left: 1em;
+  }
+
+  a {
+    z-index: 100000000;
   }
 </style>
