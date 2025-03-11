@@ -3,7 +3,6 @@ import type { Estimation } from '../room'
 import './estimations.css'
 import DeleteIcon from './svg/delete'
 import FlipIcon from './svg/flip'
-import DownloadIcon from './svg/download'
 import ExcelBar from './excelBar/excelBar'
 
 interface EstimationsProps {
@@ -13,6 +12,13 @@ interface EstimationsProps {
   onRevealEstimations: (index: number) => void
   onAddQuestion: (question: string) => void
   removeQuestion: (index: number) => void
+}
+
+const trimStringToLength = (str: string, length: number) => {
+  if (str.length <= length) {
+    return str
+  }
+  return str.slice(0, length) + '...'
 }
 
 const Estimations: React.FC<EstimationsProps> = ({
@@ -46,12 +52,16 @@ const Estimations: React.FC<EstimationsProps> = ({
             key={index}
             className={index === currentEstimation ? 'current-estimation' : ''}
           >
+            <div
+              className={`circle ${index === currentEstimation ? 'circle-current' : ''}`}
+            >
+              {index + 1}
+            </div>
             <button
               className='question'
               onClick={() => onSetCurrentEstimation(index)}
             >
-              {estimation.question}
-              <div className='tooltip'>Set current question</div>
+              {trimStringToLength(estimation.question, 18)}
             </button>
             {!estimation.revealed && (
               <button
