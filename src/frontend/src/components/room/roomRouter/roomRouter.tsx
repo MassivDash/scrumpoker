@@ -15,6 +15,7 @@ import {
   useUsername
 } from '../../usernameContext/usernameContext'
 import Hero from '../../hero/hero'
+import './roomRouter.css'
 
 interface ListResponse {
   username: string
@@ -35,7 +36,7 @@ const RoomRouter: React.FC<{ ws_url: string }> = ({ ws_url }) => {
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
   const location = useLocation()
-  const { setUsername } = useUsername()
+  const { setUsername, username } = useUsername()
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -51,20 +52,27 @@ const RoomRouter: React.FC<{ ws_url: string }> = ({ ws_url }) => {
           //if location is /room/:id, redirect to room/:id
           if (location.pathname.includes('/room/')) {
             const roomId = location.pathname.split('/').pop()
+            setLoading(false)
             navigate(`/room/${roomId}`)
             return
           }
+          setLoading(false)
           navigate('/rooms')
         }
 
         if (response.status === 200 && response.data.username) {
           setUsername(response.data.username)
+          setLoading(false)
           navigate('/rooms')
         }
       } catch (error) {
-        navigate('/create-room')
-      } finally {
+        if (location.pathname.includes('/room/')) {
+          alert(
+            'No session found, before joining other rooms you need to create a room and username'
+          )
+        }
         setLoading(false)
+        navigate('/create-room')
       }
     }
 
@@ -72,13 +80,17 @@ const RoomRouter: React.FC<{ ws_url: string }> = ({ ws_url }) => {
   }, [])
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div className='loading'>Loading...</div>
   }
 
   return (
     <Routes>
-      <Route path='/room/:id' element={<Room ws_url={ws_url} />} />
-      <Route path='/rooms' element={<ListRooms rooms={rooms} />} />
+      {username && (
+        <Route path='/room/:id' element={<Room ws_url={ws_url} />} />
+      )}
+      {username && (
+        <Route path='/rooms' element={<ListRooms rooms={rooms} />} />
+      )}
       <Route path='/create-room' element={<CreateWithHero />} />
       <Route path='/' element={<CreateWithHero />} />
     </Routes>
