@@ -42,7 +42,6 @@ const Room: React.FC<RoomProps> = ({ ws_url }) => {
   const location = useLocation()
   const navigate = useNavigate()
   const { username } = useUsername()
-  console.log(username)
 
   const roomId = location.pathname.split('/').pop()
 
@@ -80,7 +79,7 @@ const Room: React.FC<RoomProps> = ({ ws_url }) => {
         navigate('/rooms')
         console.error('Error fetching room details:', error)
       })
-  }, [roomId, username])
+  }, [])
 
   const handleWsMessage = (message: WSMessage) => {
     try {
