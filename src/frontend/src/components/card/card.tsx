@@ -25,7 +25,7 @@ const Card: React.FC<CardProps> = ({
   }
 
   const isBack = value === '?'
-  const isSpecialValue = ['20', '40', '100'].includes(value)
+  const isSpecialValue = parseInt(value) >= 11;
 
   return (
     <section
