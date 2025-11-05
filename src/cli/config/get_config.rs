@@ -16,12 +16,6 @@ pub struct Config {
     pub public_keys: HashMap<String, String>,
 }
 
-#[derive(Deserialize, Debug, Serialize, PartialEq)]
-pub struct PublicKeys {
-    pub public_api_url: String,
-    pub public_ws_url: String,
-}
-
 pub fn get_config(args: &Vec<String>) -> Config {
     // create default config
 

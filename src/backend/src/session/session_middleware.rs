@@ -1,19 +1,5 @@
 use actix_session::{storage::CookieSessionStore, SessionMiddleware};
 use actix_web::cookie::{Key, SameSite};
-use serde::{Deserialize, Serialize};
-
-#[derive(Deserialize, PartialEq, Eq, Debug)]
-pub struct Credentials {
-    pub username: String,
-    pub password: String,
-}
-
-#[derive(Serialize, Debug, PartialEq, Eq)]
-pub struct User {
-    pub id: i64,
-    username: String,
-    password: String,
-}
 
 pub fn extract_domain_from_url(url: &str) -> String {
     if url.starts_with("http://localhost") {
